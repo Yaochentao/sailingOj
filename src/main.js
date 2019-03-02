@@ -3,6 +3,15 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 
+import './assets/css/reset.css'
+
+import ElementUI from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/element-#2E9D81/index.css';
+Vue.use(ElementUI);
+import VueParticles from 'vue-particles'
+Vue.use(VueParticles);
+
 Vue.config.productionTip = false
 
 new Vue({

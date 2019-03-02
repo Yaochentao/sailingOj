@@ -7,6 +7,9 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "codemirror": "^5.44.0",
+    "echarts": "^4.1.0",
+    "element-ui": "^2.5.4",
     "register-service-worker": "^1.5.2",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1"
@@ -15,6 +18,7 @@
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-pwa": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
+    "vue-particles": "^1.0.9",
     "vue-template-compiler": "^2.5.21"
   }
 }
