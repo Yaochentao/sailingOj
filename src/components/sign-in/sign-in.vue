@@ -38,10 +38,10 @@
 
             <div class="sign-wrapper"></div>
         </div>
-        <!-- <vue-particles class="particles-con" color="#fff" :particleOpacity="0.7" :particlesNumber="120" shapeType="circle" :particleSize="4"
+        <vue-particles class="particles-con" color="#fff" :particleOpacity="0.7" :particlesNumber="120" shapeType="circle" :particleSize="4"
             linesColor="#fff" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150" :moveSpeed="2"
             :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
-        </vue-particles> -->
+        </vue-particles>
     </div>
 </template>
 <script>

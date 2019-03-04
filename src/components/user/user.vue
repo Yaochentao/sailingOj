@@ -11,27 +11,27 @@
                         <i class="el-icon-menu"></i>
                         <span slot="title">我的钱包</span>
                     </el-menu-item>
-                    <el-menu-item index="3">
+                    <el-menu-item index="3" @click="toNotice">
                         <i class="el-icon-document"></i>
                         <span slot="title">系统消息</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <el-menu-item index="4" @click="toAbility">
                         <i class="el-icon-setting"></i>
                         <span slot="title">能力评价</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <el-menu-item index="5">
                         <i class="el-icon-setting"></i>
                         <span slot="title">我的直播</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <el-menu-item index="6" @click="toSubmitHistory">
                         <i class="el-icon-setting"></i>
                         <span slot="title">做题记录</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <el-menu-item index="7" @click="toUploadHistory">
                         <i class="el-icon-setting"></i>
                         <span slot="title">上传记录</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <el-menu-item index="8" @click="toCollection">
                         <i class="el-icon-setting"></i>
                         <span slot="title">我的收藏</span>
                     </el-menu-item>
@@ -64,6 +64,22 @@
             toOrders() {
                 this.$router.push('/user/orders')
             },
+            toNotice() {
+                this.$router.push('/user/notice')
+            },
+            toAbility() {
+                this.$router.push('/user/ability')
+            },
+            toSubmitHistory() {
+                this.$router.push('/user/submit-history')
+            },
+            toUploadHistory() {
+                this.$router.push('/user/upload-history')
+            },
+            toCollection() {
+                this.$router.push('/user/collection')
+            }
+
 
         }
     }

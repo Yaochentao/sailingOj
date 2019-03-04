@@ -14,6 +14,11 @@ import live from './components/live/live'
 import user from './components/user/user'
 import details from './components/user/details'
 import orders from './components/user/orders'
+import notice from './components/user/notice'
+import ability from './components/user/ability'
+import submitHistory from './components/user/submit-history'
+import uploadHistory from './components/user/upload-history'
+import collection from './components/user/collection'
 
 Vue.use(Router)
 
@@ -35,6 +40,26 @@ export default new Router({
         {
           path: 'orders',
           component: orders
+        },
+        {
+          path: 'notice',
+          component: notice
+        },
+        {
+          path: 'ability',
+          component: ability
+        },
+        {
+          path: 'submit-history',
+          component: submitHistory
+        },
+        {
+          path: 'upload-history',
+          component: uploadHistory
+        },
+        {
+          path: 'collection',
+          component: collection
         }
       ]
     },

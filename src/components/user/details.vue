@@ -70,7 +70,6 @@
     }
 
     .details-title {
-
         width: 60%;
         font-size: 20px;
         display: inline-block;

@@ -5,7 +5,7 @@
       <el-header class="header" style="background: #2e302f; color: #2e7965;z-index: 1001;">
         <el-row>
           <el-col :span="4">
-            <div class="nav-text">sailingOJ</div>
+            <div class="nav-text" @click="toHome">sailingOJ</div>
           </el-col>
           <el-col :span="4">
             <div>
@@ -15,7 +15,7 @@
                   <div class="transition-box">
                     <div class="nav-item" @click="toProblemList">题目列表</div>
                     <div class="nav-item">上传题目</div>
-                    <div class="nav-item">提交记录</div>
+                    <div class="nav-item" @click="toSubmitHistory">提交记录</div>
                   </div>
                 </div>
               </el-collapse-transition>
@@ -52,12 +52,13 @@
                 <div v-show="show2">
                   <div class="detail-btn">
                     <div class="nav-item" @click="toUser">个人信息</div>
-                    <div class="nav-item">我的钱包</div>
-                    <div class="nav-item">系统消息</div>
-                    <div class="nav-item">能力评价</div>
+                    <div class="nav-item" @click="toOrders">我的钱包</div>
+                    <div class="nav-item" @click="toNotice">系统消息</div>
+                    <div class="nav-item" @click="toAbility">能力评价</div>
                     <div class="nav-item">我的直播</div>
-                    <div class="nav-item">做题记录</div>
+                    <div class="nav-item" @click="toSubmitHistory">做题记录</div>
                     <div class="nav-item">贡献题目</div>
+                    <div class="nav-item" @click="toCollection">我的收藏</div>
                     <div class="nav-item">注销</div>
                   </div>
                 </div>
@@ -68,7 +69,7 @@
         </el-row>
       </el-header>
       <div style="padding: 0;margin-top: 60px; position: relative">
-       <router-view />
+        <router-view />
       </div>
       <!-- <el-footer  style="background: #2e302f;height: 180px; position: relative">
         <img src="./assets/img/logo.png" width="150" height="170" class="footer-logo">
@@ -83,7 +84,7 @@
       </el-footer> -->
       <!-- <div class="test" style="height: 1000px"></div> -->
     </el-container>
-    <footer  style="background: #2e302f;height: 180px; position: relative">
+    <footer style="background: #2e302f;height: 180px; position: relative">
       <div class="center-con" style="width: 960px; margin: 0 auto; position: relative;display: flex">
         <div class="footer-logo"><img src="./assets/img/logo.png" width="150" height="170"></div>
         <div class="qr">
@@ -100,6 +101,7 @@
 </template>
 
 <script>
+import axios from 'axios';
   export default {
     data() {
       return {
@@ -113,27 +115,85 @@
       this.id = this.$route.query.id;
       console.log('app')
       console.log(this.id)
+      axios.get('http://116.62.124.130/test.php')
+      .then((res)=> {
+        console.log(res.data)
+      })
     },
     methods: {
+      toHome() {
+        this.$router.push('/home')
+      },
       toRank() {
         this.$router.push("/rank")
       },
       toProblemList() {
         this.$router.push('/problem-list')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
       },
       toSignUp() {
         this.$router.push('/sign-up')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
       },
       toSignIn() {
         this.$router.push('/sign-in')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
       },
-      toLiveList () {
+      toLiveList() {
         this.$router.push('/live-list')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
       },
-      toUser () {
+      toUser() {
         this.$router.push('/user')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toOrders() {
+        this.$router.push('/user/orders')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toNotice() {
+        this.$router.push('/user/notice')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toAbility() {
+        this.$router.push('/user/ability')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toSubmitHistory() {
+        this.$router.push('/user/submit-history')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toUploadHistory() {
+        this.$router.push('/user/upload-history')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toCollection() {
+        this.$router.push('/user/collection')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
       }
-      
+
     }
   }
 </script>
@@ -145,13 +205,14 @@
     min-height: 100%;
   }
 
-  
+
   .header {
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
   }
+
   .nav-text {
     width: 100%;
     display: inline-block;
@@ -181,7 +242,7 @@
     text-align: center;
     color: #c6c8c7;
     box-sizing: border-box;
-    
+
   }
 
   .detail-btn {
@@ -211,30 +272,33 @@
     background-image: url(./assets/img/avatar.png);
     cursor: pointer;
   }
+
   .footer-logo {
     margin: 10px 0 0 10px;
-    flex:1;
+    flex: 1;
   }
+
   .qr {
     margin-top: 20px;
-    flex:1;
+    flex: 1;
     position: relative;
     text-align: center;
   }
+
   .qr img {
-    
+
     display: inline-block;
     margin: 0 auto;
   }
+
   .foot-text {
-    flex:1;
+    flex: 1;
     text-align: center;
     margin-top: 20px;
   }
-  .foot-text a{
+
+  .foot-text a {
     display: block;
     color: #fff;
   }
-
-  
 </style>

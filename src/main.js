@@ -12,6 +12,11 @@ Vue.use(ElementUI);
 import VueParticles from 'vue-particles'
 Vue.use(VueParticles);
 
+import VideoPlayer from 'vue-video-player'
+// require('video.js/dist/video-js.css')
+// require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer);
+
 Vue.config.productionTip = false
 
 new Vue({
