@@ -18,40 +18,12 @@
             </div>
             <h2 class="title">题库最新热度</h2>
             <ul class="problem-list">
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
-                </li>
-                <li class="problem-item">
-                    <span class="problem-label">入门难度</span>
-                    <h3 class="problem-title">1.超级玛丽游戏</h3>
-                    <p class="problem-content">广州市车管所为每一辆入户的汽车都发放一块车牌，车牌的号码由六个字符组成...</p>
+                <li class="problem-item" v-for="item in hotProblems" :key="item.problem_id" @click="toProblemOj(item.problem_id)">
+                    <el-tag v-if='item.label[0]' size="small" style="margin-right: 10px">{{item.label[0]}}</el-tag>
+                    <el-tag v-if='item.label[1]' size="small" type="success" style="margin-right: 10px">{{item.label[1]}}</el-tag>
+                    <el-tag v-if='item.label[2]' size="small" type="warning" style="margin-right: 10px">{{item.label[2]}}</el-tag>
+                    <h3 class="problem-title">{{item.problem_id}}.{{item.title}}</h3>
+                    <p class="problem-content">{{item.description}}</p>
                 </li>
             </ul>
 
@@ -79,15 +51,8 @@
                     </div>
                     <div class="rank-con">
                         <h3 class="title">积分排行榜</h3>
-                        <li class="rank-item">1.xxx</li>
-                        <li class="rank-item">2.xxx</li>
-                        <li class="rank-item">3.xxx</li>
-                        <li class="rank-item">4.xxx</li>
-                        <li class="rank-item">5.xxx</li>
-                        <li class="rank-item">6.xxx</li>
-                        <li class="rank-item">7.xxx</li>
-                        <li class="rank-item">8.xxx</li>
-                        <p class="my-rank">我的排名： 45</p>
+                        <li v-for="item in rank" :key="item.rowno" class="rank-item">{{item.rowno}}.{{item.nick}}</li>
+                        <p class="my-rank">我的排名： {{myrank}}</p>
                     </div>
                     <div class="radar-con">
                         <span class="avatars"></span>
@@ -103,8 +68,50 @@
 </template>
 
 <script>
+    import qs from 'qs'
     import Radar from '../radar/radar'
     export default {
+        data() {
+            return {
+                hotProblems: [],
+                myrank: '',
+                rank: []
+            }
+        },
+        created() {
+            this.$http.get('http://118.25.176.42/php/sailingoj/hot-problem.php')
+                .then((res) => {
+
+                    this.hotProblems = res.data.data
+                })
+            this.$http.post('http://118.25.176.42/php/personal/power.php', qs.stringify({
+                    user_id: 'admin'
+                }))
+                .then((res) => {
+                    console.log(res.data)
+                })
+            this.$http.post('http://118.25.176.42/php/sailingoj/ranking-list-self.php', qs.stringify({
+                    user_id: 'admin'
+                }))
+                .then((res) => {
+                    this.myrank = res.data.data.rank
+                })
+            this.$http.get('http://118.25.176.42/php/ranking-list/ranking-list.php')
+             .then((res) => {
+                 this.rank = res.data.data
+             })
+        },
+        methods: {
+            toProblemOj(problem_id) {
+                console.log(problem_id)
+                this.$router.push({
+                    path: '/problem-oj',
+                    query: {
+                        problem_id: problem_id
+                    }
+                })
+            },
+        },
         components: {
             Radar
         }
@@ -170,6 +177,7 @@
         height: 82px;
         background: #fff;
         border-radius: 8px;
+        cursor: pointer;
     }
 
     .problem-label {
@@ -189,6 +197,12 @@
 
     .problem-content {
         font-size: 13px;
+        width: 100%;
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .problem-list {
@@ -224,6 +238,7 @@
         background: #2e9d81;
         color: #fff;
         font-size: 20px;
+        cursor: pointer;
     }
 
     .month {

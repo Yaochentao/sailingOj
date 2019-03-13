@@ -1,39 +1,31 @@
 <template>
-    <div class="user" :style="{minHeight:(screenHeight-60)+'px'}">
+    <div class="admin" :style="{minHeight:(screenHeight-60)+'px'}">
         <div class="container">
             <div class="nav-con">
                 <el-menu default-active="1" class="el-menu-vertical-demo" :style="{minHeight:(screenHeight-120)+'px',paddingTop: 60+'px'}">
-                    <el-menu-item index="1" @click="toDetails">
+                    <el-menu-item index="1" @click="toUserM">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">个人信息</span>
+                        <span slot="title">用户管理</span>
                     </el-menu-item>
-                    <el-menu-item index="2" @click="toOrders">
+                    <el-menu-item index="2" @click="toProblemM">
                         <i class="el-icon-menu"></i>
-                        <span slot="title">我的钱包</span>
+                        <span slot="title">题目管理</span>
                     </el-menu-item>
-                    <el-menu-item index="3" @click="toNotice">
+                    <el-menu-item index="3">
                         <i class="el-icon-document"></i>
-                        <span slot="title">系统消息</span>
+                        <span slot="title">订单管理</span>
                     </el-menu-item>
-                    <el-menu-item index="4" @click="toAbility">
+                    <el-menu-item index="4">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">能力评价</span>
+                        <span slot="title">直播管理</span>
                     </el-menu-item>
-                    <el-menu-item index="5">
+                    <el-menu-item index="5" @click="toNoticeM">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">我的直播</span>
+                        <span slot="title">公告管理</span>
                     </el-menu-item>
-                    <el-menu-item index="6" @click="toSubmitHistory">
+                    <el-menu-item index="6" @click="toTagManage">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">做题记录</span>
-                    </el-menu-item>
-                    <el-menu-item index="7" @click="toUploadHistory">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">上传记录</span>
-                    </el-menu-item>
-                    <el-menu-item index="8" @click="toCollection">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">我的收藏</span>
+                        <span slot="title">标签管理</span>
                     </el-menu-item>
                 </el-menu>
             </div>
@@ -58,23 +50,18 @@
             };
         },
         methods: {
-            toDetails() {
-                this.$router.push('/user/details')
+            toUserM() {
+                this.$router.push('/admin/user-manage')
             },
-            toOrders() {
-                this.$router.push('/user/orders')
+            toProblemM() {
+                this.$router.push('/admin/problem-manage')
             },
-            toNotice() {
-                this.$router.push('/user/notice')
+            toNoticeM() {
+                this.$router.push('/admin/notice-manage')
             },
-            toAbility() {
-                this.$router.push('/user/ability')
-            },
-            toSubmitHistory() {
-                this.$router.push('/user/submit-history')
-            },
-            toUploadHistory() {
-                this.$router.push('/user/upload-history')
+
+            toTagManage() {
+                this.$router.push('/admin/tag-manage')
             },
             toCollection() {
                 this.$router.push('/user/collection')
@@ -98,7 +85,6 @@
     }
     .nav-con {
         width: 20%;
-        /* padding-top: 60px; */
     }
     .item-con {
         flex:1;

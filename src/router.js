@@ -19,6 +19,11 @@ import ability from './components/user/ability'
 import submitHistory from './components/user/submit-history'
 import uploadHistory from './components/user/upload-history'
 import collection from './components/user/collection'
+import admin from './components/admin/admin'
+import userManage from './components/admin/user-manage'
+import problemManage from './components/admin/problem-manage'
+import noticeManage from './components/admin/notice-manage'
+import tagManage from './components/admin/tag-manage'
 
 Vue.use(Router)
 
@@ -60,6 +65,29 @@ export default new Router({
         {
           path: 'collection',
           component: collection
+        }
+      ]
+    },
+    {
+      path: '/admin',
+      redirect: '/admin/user-manage',
+      component: admin,
+      children: [
+        {
+          path: 'user-manage',
+          component: userManage
+        },
+        {
+          path: 'problem-manage',
+          component: problemManage
+        },
+        {
+          path: 'notice-manage',
+          component: noticeManage
+        },
+        {
+          path: 'tag-manage',
+          component: tagManage
         }
       ]
     },

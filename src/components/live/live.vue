@@ -2,7 +2,7 @@
     <div class="live" :style="{minHeight:(screenHeight-60)+'px'}">
         <div class="container" :style="{minHeight:(screenHeight-60)+'px'}">
             <div class="live-header">
-                <h3 class="live-title">Google资深工程师深度讲解Go语言</h3>
+                <h3 class="title">Google资深工程师深度讲解Go语言</h3>
                 <div class="teacher-con">
                     <span class="avatar"></span>
                     <span class="teacher-name">XXX<br>Google高级软件工程师</span>
@@ -16,11 +16,65 @@
                 </div>
                 <div class="comment-con">
                     <el-scrollbar style="height:100%">
-                        <div style="height: 1000px"></div>
+                        <div class="comment">
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                        </div>
                     </el-scrollbar>
                 </div>
             </div>
+            <div class="live-list-con">
+                <h3 style="font-weight:bold;line-height: 2;">相关直播推荐</h3>
+                <el-row :gutter="12">
+                    <el-col :span="8">
+                        <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
+                            <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
+                            <h4 @click="toLive" class="live-title">Google资深工程师深度讲解Go语言</h4>
+                            <div class="live-title-con">
+                                <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
+                                <span class="audience-num">1234人<br>正在观看</span>
+                            </div>
+                            <span class="live-tag">直播中</span>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
+                            <img src="../../assets/img/live-img1.jpg" style="display: block;width: 100%">
+                            <h4 class="live-title">专为程序员设计的线性代数课程</h4>
+                            <div class="live-title-con">
+                                <span class="live-desc">创新设计+通俗易懂，这一次，bobo老师带你彻底学会线性代数！</span>
+                                <span class="audience-num">1234人<br>正在观看</span>
+                            </div>
+                            <span class="live-tag">直播中</span>
+                        </el-card>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
+                            <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
+                            <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
+                            <div class="live-title-con">
+                                <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
+                                <span class="audience-num">1234人<br>正在观看</span>
+                            </div>
+                            <span class="live-tag">直播中</span>
+                        </el-card>
+                    </el-col>
 
+                </el-row>
+            </div>
         </div>
     </div>
 </template>
@@ -46,16 +100,18 @@
                     sources: [{
                         type: "video/mp4",
                         src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+                        // type:'rtmp/flv',
+                        // src: 'rtmp://192.168.2.24:1935/live/720yzc.stream'
                     }],
                     poster: "../../assets/img/live-img1.jpg", //你的封面地址
                     width: document.documentElement.clientWidth,
                     notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
-                    //        controlBar: {
-                    //          timeDivider: true,
-                    //          durationDisplay: true,
-                    //          remainingTimeDisplay: false,
-                    //          fullscreenToggle: true  //全屏按钮
-                    //        }
+                    controlBar: {
+                        timeDivider: true,
+                        durationDisplay: true,
+                        remainingTimeDisplay: false,
+                        fullscreenToggle: true //全屏按钮
+                    }
                 },
             }
         },
@@ -68,10 +124,10 @@
         },
         methods: {
             onPlayerPlay(player) {
-                alert("play");
+                console.log("play");
             },
             onPlayerPause(player) {
-                alert("pause");
+                console.log("pause");
             },
         },
         computed: {
@@ -87,6 +143,7 @@
 
 <style scoped>
     .container {
+        padding-bottom: 30px;
         width: 960px;
         margin: 0 auto;
         background: #efefef;
@@ -100,7 +157,7 @@
         background-image: url(../../assets/img/live-header-bg.jpeg)
     }
 
-    .live-title {
+    .title {
         width: 80%;
         margin: 0 auto;
         margin-bottom: 20px;
@@ -140,6 +197,67 @@
         flex: 1;
         padding: 0 10px 10px 10px;
         margin: 20px 20px 20px 0;
-        height: 400px;
+        height: 332px;
+        border-radius: 5px;
+        padding: 10px;
+        background: #fff;
+        -moz-box-shadow: 1px 1px 9px #333333;
+        -webkit-box-shadow: 1px 1px 9px #333333;
+        box-shadow: 1px 1px 9px #333333;
+    }
+
+    .live-list-con {
+        margin: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        background: #fff;
+        -moz-box-shadow: 1px 1px 9px #333333;
+        -webkit-box-shadow: 1px 1px 9px #333333;
+        box-shadow: 1px 1px 9px #333333;
+    }
+    .live-title {
+        padding-left: 5%;
+        cursor: pointer;
+    }
+
+    .live-title-con {
+        display: flex;
+    }
+
+    .live-desc {
+        padding-left: 5%;
+        width: 65%;
+        color: #99979c;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .audience-num {
+        flex: 1;
+        display: inline-block;
+        width: 25%;
+        font-size: 12px;
+        text-align: right;
+        color: #3ea358;
+        margin-right: 5%;
+        vertical-align: top;
+    }
+
+    .live-tag {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 10px;
+        height: 30px;
+        font-size: 13px;
+        line-height: 30px;
+        background: #ef1a1a;
+        color: #fff;
+        text-align: center;
+        border-radius: 15px;
     }
 </style>

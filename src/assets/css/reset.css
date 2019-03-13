@@ -6,6 +6,17 @@
  .el-scrollbar__wrap {
     overflow-x: hidden !important;
  }   
+
+ .el-table__header tr,
+  .el-table__header th {
+    padding: 5px !important;
+    height: 40px !important;
+}
+.el-table__body tr,
+  .el-table__body td {
+    padding: 5px !important;
+    height: 40px !important;
+}
  /* el-scrollbar只显示竖向滚动条 */
 
  html, body, div, span, applet, object, iframe,

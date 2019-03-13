@@ -1,5 +1,5 @@
 <template>
-    <div id="myChart" style="height: 300px; width: 280px"></div>
+    <div id="myChart" style="height: 300px; width: 295px"></div>
 </template>
 <script>
     // 引入基本模板
@@ -28,29 +28,25 @@
                     radar: {
                         // shape: 'circle',
                         indicator: [{
-                                name: '销售',
-                                max: 6500
+                                name: '基础算法',
+                                max: 100
                             },
                             {
-                                name: '管理',
-                                max: 16000
+                                name: 'ac',
+                                max: 100
                             },
                             {
-                                name: '信息',
-                                max: 30000
+                                name: '排序',
+                                max: 100
                             },
                             {
-                                name: '客服',
-                                max: 38000
+                                name: '查找',
+                                max: 100
                             },
-                            {
-                                name: '研发',
-                                max: 52000
-                            },
-                            {
-                                name: '市场',
-                                max: 25000
-                            }
+                            // {
+                            //     name: '提交数',
+                            //     max:  2000
+                            // }
                         ]
                     },
                     series: [{
@@ -67,7 +63,7 @@
                         },
                         // areaStyle: {normal: {}},
                         data: [{
-                            value: [4300, 10000, 28000, 35000, 50000, 19000],
+                            value: [40, 100, 28, 35],
                         }, ]
                     }]
                 });

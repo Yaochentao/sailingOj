@@ -15,28 +15,29 @@
                 <el-form-item class="form-item" label="密码" prop="password">
                     <el-input style="width: 70%;" v-model="ruleForm.password"></el-input>
                 </el-form-item>
-                <el-form-item class="form-item" label="验证码" prop="password">
-                    <el-input style="width: 30%; display: inline-block;vertical-align: top;" v-model="ruleForm.password"></el-input>
+                <el-form-item class="form-item" label="验证码" prop="code">
+                    <el-input style="width: 30%; display: inline-block;vertical-align: top;" v-model="ruleForm.identifyCode"></el-input>
                     <div class="identifyCode" @click="refreshCode" style="display: inline-block;margin-left: 20px">
                         <s-identify :identifyCode="identifyCode"></s-identify>
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">登录</el-button>
+                    <el-button type="primary" @click="login">登录</el-button>
                     <el-button>注册</el-button>
                 </el-form-item>
             </el-form>
 
             <div class="sign-wrapper"></div>
         </div>
-        <vue-particles class="particles-con" color="#fff" :particleOpacity="0.7" :particlesNumber="120" shapeType="circle" :particleSize="4"
-            linesColor="#fff" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150" :moveSpeed="2"
-            :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
+        <vue-particles class="particles-con" color="#fff" :particleOpacity="0.7" :particlesNumber="120" shapeType="circle"
+            :particleSize="4" linesColor="#fff" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150"
+            :moveSpeed="2" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
         </vue-particles>
     </div>
 </template>
 <script>
     import SIdentify from '../identify/identify'
+    import qs from 'qs'
     export default {
         data() {
             return {
@@ -49,7 +50,8 @@
 
                 ruleForm: {
                     id: '',
-                    password: ''
+                    password: '',
+                    identifyCode: ''
                 },
                 rules: {
                     id: [{
@@ -61,6 +63,18 @@
                             min: 11,
                             max: 11,
                             message: '请正确输入11位手机号',
+                            trigger: 'blur'
+                        }
+                    ],
+                    code: [{
+                            // required: true,  //设置必填  必填的话lable前会出现星号
+                            message: '请输入验证码',
+                            trigger: 'blur'
+                        },
+                        {
+                            min: 4,
+                            max: 4,
+                            message: '请正确输入4位验证码',
                             trigger: 'blur'
                         }
                     ],
@@ -82,6 +96,8 @@
 
                 this.identifyCode = "";
             this.makeCode(this.identifyCodes, 4); //初始化图片验证码
+
+            
         },
         methods: {
             randomNum(min, max) {
@@ -101,6 +117,29 @@
             },
             toChangePwd() {
                 this.$router.push('/change-pwd')
+            },
+            login() {
+                if (this.ruleForm.identifyCode == this.identifyCode) {
+                    console.log('codetrue')
+                    this.$http.post('http://118.25.176.42/php/login/login.php', qs.stringify({
+                        user_id: 'admin',
+                        password: 123456
+                    }))
+                    .then((res) => {
+                        if(res.data.code == 1) {
+                            this.$store.commit('upUser',res.data.data)
+                            this.$message('登录成功');
+                            this.$router.push('/home')
+                        }
+                        else {
+                            this.$message('密码或账号错误');
+                        }
+                        
+                    })
+                } else {
+                    this.$message('验证码错误');
+                }
+
             }
         },
         components: {

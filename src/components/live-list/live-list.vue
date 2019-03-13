@@ -14,7 +14,7 @@
             <el-row :gutter="12">
                 <el-col :span="8">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
+                        <img @click="toLive" src="../../assets/img/live-img.jpg" style="display: block;width: 100%;cursor: pointer;">
                         <h4 @click="toLive" class="live-title">Google资深工程师深度讲解Go语言</h4>
                         <div class="live-title-con">
                             <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
@@ -189,5 +189,6 @@
         color: #fff;
         text-align: center;
         border-radius: 15px;
+        
     }
 </style>

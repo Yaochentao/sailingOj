@@ -1,24 +1,24 @@
 <template>
     <div class="container">
         <div class="rank" :style="{height:(screenHeight-60)+'px'}">
-        <div class="search">
+        <!-- <div class="search">
             <el-input placeholder="搜索题目">
                 <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
-        </div>
+        </div> -->
         <div class="table-con" style="margin: 20px 0 20px 0">
-            <el-table :data="tableData" stripe style="width: 80%; margin: auto">
-                <el-table-column prop="date" label="序号" width="180">
+            <el-table :data="rank" stripe style="width: 80%; margin: auto">
+                <el-table-column prop="rowno" label="序号" width="180">
                 </el-table-column>
-                <el-table-column prop="name" label="昵称" width="180">
+                <el-table-column prop="nick" label="昵称" width="180">
                 </el-table-column>
-                <el-table-column prop="address" label="通过数量">
+                <el-table-column prop="point" label="通过数量">
                 </el-table-column>
-                <el-table-column prop="address" label="积分">
+                <el-table-column prop="solved" label="积分">
                 </el-table-column>
             </el-table>
             <div class="pagination-con" style="float: right; margin: 10px 10% 10px 0;">
-                <el-pagination background layout="prev, pager, next" :total="1000">
+                <el-pagination background layout="prev, pager, next" :total="1">
                 </el-pagination>
             </div>
 
@@ -32,43 +32,8 @@
         data() {
             return {
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
-                tableData: [{
-                    date: '1',
-                    name: '王小虎',
-                    address: '100'
-                }, {
-                    date: '2',
-                    name: '王小虎',
-                    address: '123'
-                }, {
-                    date: '3',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '4',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '5',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '6',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '7',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '8',
-                    name: '王小虎',
-                    address: '4213'
-                }, {
-                    date: '9',
-                    name: '王小虎',
-                    address: '123'
-                }]
+                tableData: [],
+                rank: []
             }
         },
          mounted() {
@@ -77,6 +42,13 @@
                 // _this.screenWidth = document.documentElement.clientWidth // 窗口宽度
                 _this.screenHeight = document.documentElement.clientHeight // 窗口高度
             }
+         },
+         created() {
+             this.$http.get('http://118.25.176.42/php/ranking-list/ranking-list.php')
+             .then((res) => {
+                 console.log(res.data)
+                 this.rank = res.data.data
+             })
          }
     }
 </script>

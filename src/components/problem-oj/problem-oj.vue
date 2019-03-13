@@ -1,74 +1,72 @@
 <template>
     <div class="container">
         <div class="problem-oj" :style="{height:(screenHeight-60)+'px'}">
-        <div class="header">
-            <h2 class="problem-name">1.两数之和</h2>
-            <el-tag size="small" style="margin-right: 10px">字符串</el-tag>
-            <el-tag size="small" type="success" style="margin-right: 10px">2019</el-tag>
-            <el-tag size="small" type="warning" style="margin-right: 10px">NOI系列</el-tag>
-            <span style="font-size: 12px; color: #666">收藏</span>
-        </div>
-        <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
-            <el-container style="height: 100%">
-                <el-header style="display: flex;height: 42px; border-bottom: 3px solid #fff">
-                    <h3 class="title">题目描述</h3>
-                    <div class="block"></div>
-                </el-header>
-                <el-main>
-                    <div class="problem-detail">
-                        <p class="problem-txt">给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和
-                            为目标值的那 两个 整数，并返回他们的数组下标。
-                            你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组
-                            中同样的元素。
-                        </p>
-                        <div class="example card" style="padding: 0">
-                            <h2 style="width: 100%;background: #dcdcdc;padding-left: 10px;font-size: 14px;line-height: 2">示例</h2>
-                            <div style="padding: 10px;">
-                                <h3 style="color: #00a080;font-size: 15px;">标准输入</h3>
-                                <p class="card">nums = [2, 7, 11, 15], target = 9</p>
-                                <h3 style="margin-top: 10px;color: #00a080;font-size: 15px;">标准输出</h3>
-                                <p class="card">[0,1]</p>
+            <div class="header">
+                <h2 class="problem-name">{{problem.problem_id}}.{{problem.title}}</h2>
+                <el-tag v-if='label[0]' size="small" style="margin-right: 10px">{{label[0]}}</el-tag>
+                <el-tag v-if='label[1]' size="small" type="success" style="margin-right: 10px">{{label[1]}}</el-tag>
+                <el-tag v-if='label[2]' size="small" type="warning" style="margin-right: 10px">{{label[2]}}</el-tag>
+                <span style="font-size: 12px; color: #666">收藏</span>
+            </div>
+            <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
+                <el-container style="height: 100%">
+                    <el-header style="display: flex;height: 42px; border-bottom: 3px solid #fff">
+                        <h3 class="title">题目描述</h3>
+                        <div class="block"></div>
+                    </el-header>
+                    <el-main>
+                        <div class="problem-detail">
+                            <p class="problem-txt">{{problem.description}}</p>
+                            <div class="example card" style="padding: 0">
+                                <h2 style="width: 100%;background: #dcdcdc;padding-left: 10px;font-size: 14px;line-height: 2">示例</h2>
+                                <div style="padding: 10px;">
+                                    <h3 style="color: #00a080;font-size: 15px;">标准输入</h3>
+                                    <p class="card">{{problem.input}}</p>
+                                    <h3 style="margin-top: 10px;color: #00a080;font-size: 15px;">标准输出</h3>
+                                    <p class="card">{{problem.output}}</p>
+                                </div>
                             </div>
                         </div>
+                    </el-main>
+
+                </el-container>
+
+
+
+            </div>
+            <div class="right-con" :style="{height:(screenHeight-220)+'px'}">
+                <div style="display: flex;height: 39px; border-bottom: 3px solid #fff">
+                    <h3 style="margin-left:20px" class="title">编辑代码</h3>
+                    <div class="block">
+                        <el-select v-model="value" placeholder="请选择" size="mini" class="code-select">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                            </el-option>
+                        </el-select>
                     </div>
-                </el-main>
-
-            </el-container>
-
-
-
-        </div>
-        <div class="right-con" :style="{height:(screenHeight-220)+'px'}">
-            <div style="display: flex;height: 39px; border-bottom: 3px solid #fff">
-                <h3 style="margin-left:20px" class="title">编辑代码</h3>
-                <div class="block">
-                    <el-select v-model="value" placeholder="请选择" size="mini" class="code-select">
-                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                        </el-option>
-                    </el-select>
                 </div>
+                <div class="codemirror-con"><textarea ref="code"></textarea></div>
             </div>
-            <div class="codemirror-con"><textarea ref="code"></textarea></div>
-        </div>
-        <div class="btn-con">
-            <div class="btn-con-left">
-                <div style="float: right; margin: 10px 10px 0 0">
-                    <el-button size="medium">上一题</el-button>
-                    <span> 1/902 </span>
-                    <el-button size="medium">下一题</el-button>
+            <div class="btn-con">
+                <div class="btn-con-left">
+                    <div style="float: right; margin: 10px 10px 0 0">
+                        <!-- <el-button size="medium">上一题</el-button>
+                        <span> {{problem_id - 999}}/902 </span>
+                        <el-button size="medium">下一题</el-button> -->
+                        <el-button size="medium" @click="back">返回题目列表</el-button>
+                    </div>
                 </div>
-            </div>
-            <div class="btn-con-right">
-                <div style="float: right; margin: 10px 10px 0 0">
-                    <el-button size="medium">执行代码</el-button>
-                    <el-button size="medium">提交</el-button>
+                <div class="btn-con-right">
+                    <div style="float: right; margin: 10px 10px 0 0">
+                        <el-button size="medium" @click="getRes">执行代码</el-button>
+                        <el-button size="medium" @click="submit">提交</el-button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
+    import qs from 'qs';
     import "codemirror/theme/duotone-light.css";
     import "codemirror/lib/codemirror.css";
 
@@ -79,9 +77,13 @@
     require("codemirror/addon/hint/show-hint");
     //   require("codemirror/addon/hint/");
     export default {
-        name: "codeMirror",
         data() {
             return {
+                problem_id: '',
+                solution_id: '',
+                label: [],
+                problem: {},
+                editor: {},
                 options: [{
                     value: '选项1',
                     label: 'c'
@@ -129,6 +131,7 @@
                 //     'Ctrl': 'autocomplete'
                 // }, //自定义快捷键
             })
+            this.editor = editor;
             editor.setSize('100%', this.screenHeight - 280); //设置代码框的宽高
 
             editor.setValue("");
@@ -137,15 +140,61 @@
             //   editor.showHint()
             // })
         },
+        created() {
+            this.getId();
+            this.getProblem();
+            
+        },
+        methods: {
+            getId() {
+                this.problem_id = this.$route.query.problem_id
+                console.log(this.problem_id);
+            },
+            getProblem() {
+                this.$http.post('http://118.25.176.42/php/question-bank/problem-content.php', qs.stringify({
+                    problem_id: this.$route.query.problem_id
+                }))
+                .then((res) => {
+                    this.problem = res.data.data
+                    this.label = res.data.label
+                })
+            },
+            back() {
+                this.$router.back();
+            },
+            submit() {
+                let code = this.editor.getValue()
+                console.log(code)
+                this.$http.post('http://118.25.176.42/php/problem/solution-add.php',qs.stringify({
+                    user_id: 'admin',
+                    problem_id: this.problem_id,
+                    source_code: code,
+                    language: '0'
+                }))
+                .then((res) => {
+                    console.log(res.data)
+                    this.solution_id = res.data.solution_id;
+                })
+            },
+            getRes() {
+                this.$http.post('http://118.25.176.42/php/problem/problem-source-result.php',qs.stringify({
+                    solution_id: this.solution_id
+                }))
+                .then((res) => {
+                    console.log(res.data)
+                })
+            }
+        }
     }
 </script>
 
 <style scoped>
     .container {
-    width: 960px;
-    margin: 0 auto;
-    background: #efefef;
-  }
+        width: 960px;
+        margin: 0 auto;
+        background: #efefef;
+    }
+
     .problem-oj {
         height: 100%;
         width: 100%;
