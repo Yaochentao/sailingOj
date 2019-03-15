@@ -34,13 +34,13 @@
                             <div style="width: 180px">
                                 <h3 style="font-size: 26px; color: #2e9d81">Hi , <i style="font-size: 18px; color: #cdd1cc">失格丶</i></h3>
                                 <p style="font-size: 13px;color: #cdd1cc">打卡记录你的进步</p>
-                                <span class="register-btn">点击打卡</span>
+                                <span class="register-btn" @click="daka">{{dakaMsg}}</span>
                             </div>
                             <div style="flex: 1;display: flex">
-                                <div class="month">一月</div>
+                                <div class="month">{{month}}月</div>
                                 <div class="data">
-                                    <p class="day">31</p>
-                                    <p class="week">Thursday</p>
+                                    <p class="day">{{day}}</p>
+                                    <p class="week">{{weekday}}</p>
                                 </div>
                             </div>
                         </div>
@@ -75,10 +75,21 @@
             return {
                 hotProblems: [],
                 myrank: '',
-                rank: []
+                rank: [],
+                month: '',
+                day: '',
+                week: '',
+                dakaMsg: '点击打卡'
             }
         },
         created() {
+            let data = new Date();
+            this.month = data.getMonth() + 1;
+            this.day = data.getDate();
+            this.week = data.getDay();
+
+
+
             this.$http.get('http://118.25.176.42/php/sailingoj/hot-problem.php')
                 .then((res) => {
 
@@ -97,9 +108,9 @@
                     this.myrank = res.data.data.rank
                 })
             this.$http.get('http://118.25.176.42/php/ranking-list/ranking-list.php')
-             .then((res) => {
-                 this.rank = res.data.data
-             })
+                .then((res) => {
+                    this.rank = res.data.data
+                })
         },
         methods: {
             toProblemOj(problem_id) {
@@ -111,6 +122,22 @@
                     }
                 })
             },
+            daka() {
+                this.$message({
+                    message: '打卡成功',
+                    type: 'success'
+                });
+                this.dakaMsg = '已打卡'
+            }
+        },
+        computed: {
+            weekday() {
+                let week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                return (week[this.week])
+            },
+            user_id() {
+                return this.$store.state.user_id;
+            }
         },
         components: {
             Radar

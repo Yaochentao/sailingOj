@@ -114,7 +114,7 @@
             },
             getVcode() {
                 console.log('code')
-                this.$http.post('http://118.25.176.42/php/login/check-vcode.php', qs.stringify({
+                this.$http.post('http://47.102.159.98/php/login/check-vcode.php', qs.stringify({
                         user_id: 13372416908
                     }))
                     .then((res) => {
@@ -122,20 +122,20 @@
                     })
             },
             register() {
-                // console.log(this.ruleForm.password1 === this.ruleForm.password2)
-                // if (this.ruleForm.password1 === this.ruleForm.password2) {
-                //     console.log('xiangtong')
-                //     if (this.ruleForm.code == this.code) {
-                //         this.$http.post('http://118.25.176.42/php/login/register.php', qs.stringify({
-                //             user_id: 12345678912,
-                //             password: 123456
-                //         }))
-                //     } else {
-                //         this.$message('验证码错误');
-                //     }
-                // } else {
-                //     this.$message('两次密码输入不同');
-                // }
+                console.log(this.ruleForm.password1 === this.ruleForm.password2)
+                if (this.ruleForm.password1 === this.ruleForm.password2) {
+                    console.log('xiangtong')
+                    if (this.ruleForm.code == this.code) {
+                        this.$http.post('http://118.25.176.42/php/login/register.php', qs.stringify({
+                            user_id: 12345678912,
+                            password: 123456
+                        }))
+                    } else {
+                        this.$message('验证码错误');
+                    }
+                } else {
+                    this.$message('两次密码输入不同');
+                }
 
                 // this.$http.post('http://118.25.176.42/php/login/register.php', qs.stringify({
                 //             user_id: 12445678912,

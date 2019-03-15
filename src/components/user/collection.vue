@@ -4,19 +4,19 @@
             <h3 class="details-title">我的收藏</h3>
         </div>
         <div class="table-con">
-            <el-table :data="tableData" style="width: 100%">
-                <el-table-column prop="address" label="题目id">
+            <el-table :data="collections" style="width: 100%">
+                <el-table-column prop="problem_id" label="题目id">
                 </el-table-column>
-                <el-table-column prop="name" label="题目名称">
+                <el-table-column prop="title" label="题目名称">
                 </el-table-column>
                 <el-table-column width='240' label="标签">
-                        <template>
-                            <el-tag size="small" style="margin-right: 3px">字符串</el-tag>
-                            <el-tag size="small" type="success" style="margin-right: 3px">2019</el-tag>
-                            <el-tag size="small" type="warning" style="margin-right: 3px">NOI系列</el-tag>
-                        </template>
-                    </el-table-column>
-                <el-table-column prop="state" label="热度">
+                    <template slot-scope="scope">
+                        <el-tag v-if='scope.row.label[0]' size="small" style="margin-right: 3px">{{scope.row.label[0]}}</el-tag>
+                        <el-tag v-if='scope.row.label[1]' size="small" type="success" style="margin-right: 3px">{{scope.row.label[1]}}</el-tag>
+                        <el-tag v-if='scope.row.label[2]' size="small" type="warning" style="margin-right: 3px">{{scope.row.label[2]}}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="submit" label="热度">
                 </el-table-column>
             </el-table>
             <el-pagination style="margin: 20px 0 20px 20px;float: right" background layout="prev, pager, next" :total="1000">
@@ -25,30 +25,31 @@
     </div>
 </template>
 <script>
+    import qs from 'qs'
     export default {
         data() {
             return {
-                tableData: [{
-                    date: '2016-05-02',
-                    name: 'A+BProblem',
-                    address: '23',
-                    state: '21321'
-                }, {
-                    date: '2016-05-04',
-                    name: '虫食算',
-                    address: '90',
-                    state: '213'
-                }, {
-                    date: '2016-05-01',
-                    name: '统计单词个数',
-                    address: '200',
-                    state: '344'
-                }, {
-                    date: '2016-05-03',
-                    name: '取数游戏',
-                    address: '516',
-                    state: '1'
-                }]
+                collections: []
+            }
+        },
+        created() {
+            this.showCollection();
+        },
+        methods: {
+            showCollection() {
+                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
+                    user_id: this.user_id,
+                    type: 'show'
+                }))
+                .then((res) => {
+                    console.log(res.data);
+                    this.collections = res.data.data;
+                })
+            }
+        },
+        computed: {
+            user_id() {
+                return this.$store.state.user_id;
             }
         }
     }

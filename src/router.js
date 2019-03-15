@@ -24,7 +24,7 @@ import userManage from './components/admin/user-manage'
 import problemManage from './components/admin/problem-manage'
 import noticeManage from './components/admin/notice-manage'
 import tagManage from './components/admin/tag-manage'
-
+import uploadProblem from './components/upload-problem/upload-problem'
 Vue.use(Router)
 
 export default new Router({
@@ -67,6 +67,10 @@ export default new Router({
           component: collection
         }
       ]
+    },
+    {
+      path: '/upload-problem',
+      component: uploadProblem
     },
     {
       path: '/admin',

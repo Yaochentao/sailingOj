@@ -22,8 +22,9 @@
                         </el-table-column>
                     </el-table>
                     <div class="pagination-con" style="float: right; margin: 10px 0 10px 0;">
-                        <el-pagination background layout="prev, pager, next" :total='this.pages'>
-                        </el-pagination>
+                        <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10" @current-change="handleCurrentChange"
+                background layout="prev, pager, next" :total="this.totalPage*10">
+            </el-pagination>
                     </div>
 
                 </div>
@@ -31,8 +32,8 @@
             <div class="right-con">
                 <span class="uploadBtn">上传题目</span>
                 <div class="serch-con card">
-                    <el-input size="small" placeholder="搜索题目" style="margin: 10px 0 10px 0">
-                        <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-input size="small" placeholder="搜索题目" style="margin: 10px 0 10px 0" v-model="searchValue">
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
                     <el-radio-group v-model="rankType" @change="changeProblem">
                         <el-radio :label="1">按题号排序</el-radio>
@@ -63,11 +64,13 @@
     export default {
         data() {
             return {
+                searchValue: '',
+                currentPage: 1,
+                totalPage: '',
                 tags: [],
                 problems: [],
                 rankType: '1',
                 tableData: [],
-                pages: 1,
                 screenHeight: document.documentElement.clientHeight // 屏幕高度
             }
         },
@@ -87,12 +90,12 @@
         },
         methods: {
             getProblems(rankType) {
-                this.$http.post('http://118.25.176.42/php/question-bank/question-bank-list.php', qs.stringify({
+                this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
                     'rank.type': rankType
                 }))
                 .then((res) => {
                     this.problems = res.data.data;
-                    this.pages = res.data.pages
+                    this.totalPage = res.data.pages
                 })
             },
             toProblemOj(row) {
@@ -114,6 +117,24 @@
                 }else if(this.rankType == 4) {
                     this.getProblems('ac');
                 }
+            },
+            search() {
+                this.$http.post('http://47.102.159.98/php/question-bank/search.php',qs.stringify({
+                    string: this.searchValue
+                }))
+                .then((res) => {
+                    this.problems = res.data.data;
+                })
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+                this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
+                    'rank.type': 'problem_id',
+                    page: val
+                }))
+                .then((res) => {
+                    this.problems = res.data.data;
+                })
             }
         }
     }

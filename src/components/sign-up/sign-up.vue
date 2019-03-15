@@ -23,7 +23,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="login">登录</el-button>
-                    <el-button>注册</el-button>
+                    <el-button>去注册</el-button>
                 </el-form-item>
             </el-form>
 
@@ -59,24 +59,24 @@
                             message: '请输入注册手机号',
                             trigger: 'blur'
                         },
-                        {
-                            min: 11,
-                            max: 11,
-                            message: '请正确输入11位手机号',
-                            trigger: 'blur'
-                        }
+                        // {
+                        //     min: 11,
+                        //     max: 11,
+                        //     message: '请正确输入11位手机号',
+                        //     trigger: 'blur'
+                        // }
                     ],
                     code: [{
                             // required: true,  //设置必填  必填的话lable前会出现星号
                             message: '请输入验证码',
                             trigger: 'blur'
                         },
-                        {
-                            min: 4,
-                            max: 4,
-                            message: '请正确输入4位验证码',
-                            trigger: 'blur'
-                        }
+                        // {
+                        //     min: 4,
+                        //     max: 4,
+                        //     message: '请正确输入4位验证码',
+                        //     trigger: 'blur'
+                        // }
                     ],
                     password: [{
                         // required: true,
@@ -121,13 +121,15 @@
             login() {
                 if (this.ruleForm.identifyCode == this.identifyCode) {
                     console.log('codetrue')
-                    this.$http.post('http://118.25.176.42/php/login/login.php', qs.stringify({
-                        user_id: 'admin',
-                        password: 123456
+                    this.$http.post('http://47.102.159.98/php/login/login.php', qs.stringify({
+                        user_id: this.ruleForm.id,
+                        password: this.ruleForm.password
                     }))
                     .then((res) => {
                         if(res.data.code == 1) {
-                            this.$store.commit('upUser',res.data.data)
+                            this.$store.commit('upUser',res.data.data.user_id);
+                            this.$store.commit('upNick',res.data.data.nick);
+                            this.$store.commit('upPhoto',res.data.data.photo);
                             this.$message('登录成功');
                             this.$router.push('/home')
                         }

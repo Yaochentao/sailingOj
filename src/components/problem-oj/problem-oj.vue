@@ -6,7 +6,8 @@
                 <el-tag v-if='label[0]' size="small" style="margin-right: 10px">{{label[0]}}</el-tag>
                 <el-tag v-if='label[1]' size="small" type="success" style="margin-right: 10px">{{label[1]}}</el-tag>
                 <el-tag v-if='label[2]' size="small" type="warning" style="margin-right: 10px">{{label[2]}}</el-tag>
-                <span style="font-size: 12px; color: #666">收藏</span>
+                <span v-if="!ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="collection">收藏</span>
+                <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="unCollection">取消收藏</span>
             </div>
             <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
                 <el-container style="height: 100%">
@@ -84,6 +85,7 @@
                 label: [],
                 problem: {},
                 editor: {},
+                ifCollect: false,
                 options: [{
                     value: '选项1',
                     label: 'c'
@@ -143,7 +145,13 @@
         created() {
             this.getId();
             this.getProblem();
+            if(this.user_id.length > 0) {
+                this.checkClection();
+            } else {
+                console.log('unlogin')
+            }
             
+
         },
         methods: {
             getId() {
@@ -152,37 +160,93 @@
             },
             getProblem() {
                 this.$http.post('http://118.25.176.42/php/question-bank/problem-content.php', qs.stringify({
-                    problem_id: this.$route.query.problem_id
-                }))
-                .then((res) => {
-                    this.problem = res.data.data
-                    this.label = res.data.label
-                })
+                        problem_id: this.$route.query.problem_id
+                    }))
+                    .then((res) => {
+                        this.problem = res.data.data
+                        this.label = res.data.label
+                    })
             },
             back() {
                 this.$router.back();
             },
             submit() {
-                let code = this.editor.getValue()
-                console.log(code)
-                this.$http.post('http://118.25.176.42/php/problem/solution-add.php',qs.stringify({
-                    user_id: 'admin',
-                    problem_id: this.problem_id,
-                    source_code: code,
-                    language: '0'
-                }))
-                .then((res) => {
-                    console.log(res.data)
-                    this.solution_id = res.data.solution_id;
-                })
+                if (this.user_id) {
+                    let code = this.editor.getValue()
+                    console.log(code)
+                    this.$http.post('http://118.25.176.42/php/problem/solution-add.php', qs.stringify({
+                            user_id: this.user_id,
+                            problem_id: this.problem_id,
+                            source_code: code,
+                            language: '0'
+                        }))
+                        .then((res) => {
+                            console.log(res.data)
+                            this.solution_id = res.data.solution_id;
+                            var t;
+                            clearTimeout(t);
+                            let that = this;
+                            t = setTimeout(function () {
+                                that.getRes();
+                            }, 2000)
+                        })
+                } else {
+                    this.$message('请登录再操作');
+                }
+
+
+
+
             },
             getRes() {
-                this.$http.post('http://118.25.176.42/php/problem/problem-source-result.php',qs.stringify({
-                    solution_id: this.solution_id
+                this.$http.post('http://118.25.176.42/php/problem/problem-source-result.php', qs.stringify({
+                        solution_id: this.solution_id
+                    }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.$alert(res.data.error, res.data.msg, {
+                            confirmButtonText: '确定'
+                        })
+                    })
+            },
+            collection() {
+                console.log('collection')
+                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
+                    user_id: this.user_id,
+                    problem_id: this.problem_id,
+                    type: 'collect'
+                }))
+                .then((res) => {
+                    console.log(res.data);
+                    this.ifCollect = true;
+                })
+            },
+            unCollection() {
+                console.log('unCollection')
+                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
+                    user_id: this.user_id,
+                    problem_id: this.problem_id,
+                    type: 'delete'
+                }))
+                .then((res) => {
+                    console.log(res.data);
+                    this.ifCollect = false;
+                })
+            },
+            checkClection() {
+                this.$http.post('http://47.102.159.98/php/personal/check-collect.php',qs.stringify({
+                    user_id: this.user_id,
+                    problem_id: this.problem_id,
                 }))
                 .then((res) => {
                     console.log(res.data)
+                    this.ifCollect = res.data.code == 1 ? true : false;
                 })
+            }
+        },
+        computed: {
+            user_id() {
+                return this.$store.state.user_id;
             }
         }
     }

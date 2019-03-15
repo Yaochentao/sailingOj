@@ -5,7 +5,8 @@
       <el-header class="header" style="background: #2e302f; color: #2e7965;z-index: 1001;">
         <el-row>
           <el-col :span="4">
-            <img src="./assets/img/h-logo.png" height="60" width="100" style="cursor: pointer;display:block;width:100px;margin: 0 auto;" class="h-logo" @click="toHome">
+            <img src="./assets/img/h-logo.png" height="60" width="100" style="cursor: pointer;display:block;width:100px;margin: 0 auto;"
+              class="h-logo" @click="toHome">
           </el-col>
           <el-col :span="4">
             <div @mouseover="show = true" @mouseout="show = false">
@@ -14,7 +15,7 @@
                 <div v-show="show">
                   <div class="transition-box">
                     <div class="nav-item" @click="toProblemList">题目列表</div>
-                    <div class="nav-item">上传题目</div>
+                    <div class="nav-item" @click="toUpload">上传题目</div>
                     <div class="nav-item" @click="toSubmitHistory">提交记录</div>
                   </div>
                 </div>
@@ -42,12 +43,12 @@
           </el-col>
           <el-col :span="4">
             <div class="sign-btn">
-              <span @click="toSignUp" style='cursor: pointer;'>登录 </span>/
-              <span @click="toSignIn" style='cursor: pointer;'> 注册</span>
-              <!-- <span>失格丶</span> -->
+              <span v-show="!user_id" @click="toSignUp" style='cursor: pointer;'>登录 / </span>
+              <span v-show="!user_id" @click="toSignIn" style='cursor: pointer;'> 注册</span>
+              <span v-show="user_id">{{nick}}</span>
             </div>
-            <div @mouseover="show2 = true" @mouseout="show2 = false" style="display: inline-block; width: 66px">
-              <span  @click="toUser" class="avatars"></span>
+            <div v-show="user_id" @mouseover="show2 = true" @mouseout="show2 = false" style="display: inline-block; width: 66px">
+              <img @click="toUser" class="avatars" :src="photo"/>
               <el-collapse-transition>
                 <div v-show="show2">
                   <div class="detail-btn">
@@ -57,10 +58,10 @@
                     <div class="nav-item" @click="toAbility">能力评价</div>
                     <div class="nav-item">我的直播</div>
                     <div class="nav-item" @click="toSubmitHistory">做题记录</div>
-                    <div class="nav-item">贡献题目</div>
+                    <div class="nav-item" @click="toUpload">贡献题目</div>
                     <div class="nav-item" @click="toCollection">我的收藏</div>
                     <div class="nav-item" @click="toAdmin">管理</div>
-                    <div class="nav-item">注销</div>
+                    <div class="nav-item" @click="logout">注销</div>
                   </div>
                 </div>
               </el-collapse-transition>
@@ -102,22 +103,24 @@
 </template>
 
 <script>
-import axios from 'axios';
-import qs from 'qs'
+  import axios from 'axios';
+  import qs from 'qs'
   export default {
     data() {
       return {
-        user: {},
         show: false,
         show1: false,
         show2: false,
-        test: ''
+        test: '',
+
       }
     },
     created() {
-      this.user = this.$store.state.user;
-      console.log(this.user)
-      
+
+
+
+      console.log(this.$store.state.user_id)
+
       // axios.get('http://116.62.124.130:3000/search?keywords=%E6%B5%B7%E9%98%94%E5%A4%A9%E7%A9%BA')
       // .then((res)=> {
       //   console.log(res.data)
@@ -131,6 +134,9 @@ import qs from 'qs'
       // })
     },
     methods: {
+      toUpload() {
+        this.$router.push('/upload-problem')
+      },
       toHome() {
         this.$router.push('/home')
       },
@@ -205,8 +211,28 @@ import qs from 'qs'
       },
       toAdmin() {
         this.$router.push('/admin')
+      },
+      logout() {
+        this.$store.commit('upUser', '');
+        this.$message('注销成功');
       }
 
+    },
+    computed: {
+      user_id() {
+        return this.$store.state.user_id;
+      },
+      nick() {
+        return this.$store.state.nick;
+      },
+      photo() {
+        return 'http://47.102.159.98'+this.$store.state.photo;
+        // return 'https://farm4.staticflickr.com/3931/15532327436_74c32632ac_k.jpg'
+      }
+
+    },
+    watch: {
+      
     }
   }
 </script>
@@ -281,8 +307,8 @@ import qs from 'qs'
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    background-color: #fff;
-    background-image: url(./assets/img/avatar.png);
+    /* background-color: #fff; */
+    
     cursor: pointer;
   }
 
@@ -315,5 +341,3 @@ import qs from 'qs'
     color: #fff;
   }
 </style>
-
-
