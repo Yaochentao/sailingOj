@@ -5,33 +5,35 @@
             <el-button size='mini' type="primary" style="float: right;margin: 4px -160px 0 0">+上传</el-button>
         </div>
         <el-tabs v-model="activeName" class="table-con" type="card">
-            <el-tab-pane label="已有题目" name="first">
+            <el-tab-pane label="题目" name="first">
                 <div>
-                    <el-table :data="tableData" style="width: 100%">
-                        <el-table-column prop="date" label="题目编号">
+                    <el-table :data="problems" style="width: 100%">
+                        <el-table-column prop="problem_id" label="题目编号">
                         </el-table-column>
-                        <el-table-column prop="name" label="题目名称">
+                        <el-table-column prop="title" label="题目名称">
                         </el-table-column>
-                        <el-table-column prop="address" label="上传者">
+                        <el-table-column prop="user_id" label="上传者">
                         </el-table-column>
                         <el-table-column label="操作">
-                            <el-button type="text" size="small">编辑</el-button>
-                            <el-button style="color: red" type="text" size="small">删除</el-button>
+                            <template slot-scope="scope">
+                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click="pass(scope.row)">通过</el-button>
+                                <el-button v-if="scope.row.defunct == 0" style="color: red" type="text" size="small" @click="deleteProblem(scope.row)">删除</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
-                    <el-pagination style="margin: 20px 0 20px 20px;float: right" background layout="prev, pager, next"
-                        :total="1000">
+                    <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10"
+                        @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
                     </el-pagination>
                 </div>
             </el-tab-pane>
-            <el-tab-pane label="待审核题目" name="second">
+            <!-- <el-tab-pane label="待审核题目" name="second">
                 <div>
-                    <el-table :data="tableData" style="width: 100%">
-                        <el-table-column prop="date" label="题目编号">
+                    <el-table :data="problems" style="width: 100%">
+                        <el-table-column prop="problem_id" label="题目编号">
                         </el-table-column>
-                        <el-table-column prop="name" label="题目名称">
+                        <el-table-column prop="title" label="题目名称">
                         </el-table-column>
-                        <el-table-column prop="address" label="上传者">
+                        <el-table-column prop="user_id" label="上传者">
                         </el-table-column>
                         <el-table-column label="操作">
                             <el-button type="text" size="small">通过</el-button>
@@ -39,63 +41,74 @@
                             <el-button type="text" size="small">驳回</el-button>
                         </el-table-column>
                     </el-table>
-                    <el-pagination style="margin: 20px 0 20px 20px;float: right" background layout="prev, pager, next"
-                        :total="1000">
+                    <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10"
+                        @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
                     </el-pagination>
                 </div>
-            </el-tab-pane>
+            </el-tab-pane> -->
         </el-tabs>
 
     </div>
 </template>
 <script>
+    import qs from 'qs'
     export default {
         data() {
             return {
                 activeName: 'first',
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '充值',
-                    address: '23',
-                    state: '完成'
-                }, {
-                    date: '2016-05-04',
-                    name: '提现',
-                    address: '90',
-                    state: '完成'
-                }, {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                }, {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                }, {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                }, {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                },  {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                }, {
-                    date: '2016-05-03',
-                    name: '充值',
-                    address: '516',
-                    state: '完成'
-                }]
+                problems: [],
+                currentPage: 1,
+                totalPage: '',
             }
-        }
+        },
+        created() {
+            this.getProblemList();
+        },
+        methods: {
+            getProblemList() {
+                this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
+                    type: 'show'
+                }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.problems = res.data.data;
+                        this.totalPage = res.data.pages;
+                    })
+            },
+            handleCurrentChange(val) {
+                console.log(val);
+                this.$http.post('http://47.102.159.98/php/administrator/problem-list.php', qs.stringify({
+                        page: val,
+                        type: 'show'
+                    }))
+                    .then((res) => {
+                        console.log(res.data)
+                        this.problems = res.data.data;
+                    })
+            },
+            deleteProblem(problem) {
+                console.log(problem)
+                this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
+                    type: 'delete',
+                    problem_id: problem.problem_id
+                }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.getProblemList();
+                    })
+            },
+            pass(problem) {
+                this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
+                    type: 'pass',
+                    problem_id: problem.problem_id
+                }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.getProblemList();
+                    })
+            },
+        },
+
     }
 </script>
 

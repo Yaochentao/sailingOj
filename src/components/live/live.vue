@@ -10,7 +10,7 @@
             </div>
             <div class="flex-con" style="display: flex">
                 <div class="player">
-                    <video-player class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"
+                    <video-player autoplay class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"
                         @play="onPlayerPlay($event)" @pause="onPlayerPause($event)">
                     </video-player>
                 </div>
@@ -42,7 +42,7 @@
                     <el-col :span="8">
                         <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
                             <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                            <h4 @click="toLive" class="live-title">Google资深工程师深度讲解Go语言</h4>
+                            <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
                             <div class="live-title-con">
                                 <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
                                 <span class="audience-num">1234人<br>正在观看</span>
@@ -74,6 +74,7 @@
                     </el-col>
 
                 </el-row>
+
             </div>
         </div>
     </div>
@@ -81,6 +82,7 @@
 <script>
     require('video.js/dist/video-js.css')
     require('vue-video-player/src/custom-theme.css')
+    import 'videojs-contrib-hls'
     import {
         videoPlayer
     } from 'vue-video-player';
@@ -90,7 +92,7 @@
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 playerOptions: {
                     // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-                    autoplay: false, //如果true,浏览器准备好时开始回放。
+                    autoplay: true, //如果true,浏览器准备好时开始回放。
                     muted: false, // 默认情况下将会消除任何音频。
                     loop: false, // 导致视频一结束就重新开始。
                     preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
@@ -98,20 +100,29 @@
                     aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
                     fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
                     sources: [{
-                        type: "video/mp4",
-                        src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+                        // type: "video/mp4",
+                        // src: "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" //你的视频地址（必填）
+                        // src: 'http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4',
                         // type:'rtmp/flv',
-                        // src: 'rtmp://192.168.2.24:1935/live/720yzc.stream'
+                        // src: 'rtmp://58.200.131.2:1935/livetv/hunantv'
+                        withCredentials: false,
+                        type: 'application/x-mpegURL',
+                        src: 'https://1.mms.vlog.xuite.net/hls/ftvtv/index.m3u8'
+                        // src: 'http://hls.facebac.com/live/22cdf607ab95c3fd2f2e/playlist.m3u8?token=ab0b79ea551404bb69a6&secret=07172e29373d5484_cfd2f3d6'
                     }],
-                    poster: "../../assets/img/live-img1.jpg", //你的封面地址
+                    // poster: "../../assets/img/live-img1.jpg", //你的封面地址
                     width: document.documentElement.clientWidth,
                     notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
                     controlBar: {
-                        timeDivider: true,
-                        durationDisplay: true,
+                        timeDivider: false,
+                        durationDisplay: false,
                         remainingTimeDisplay: false,
-                        fullscreenToggle: true //全屏按钮
-                    }
+                        currentTimeDisplay: false, // 当前时间
+                        volumeControl: false, // 声音控制键
+                        playToggle: false, // 暂停和播放键
+                        progressControl: false, // 进度条
+                        fullscreenToggle: true // 全屏按钮
+                    },
                 },
             }
         },
@@ -215,6 +226,7 @@
         -webkit-box-shadow: 1px 1px 9px #333333;
         box-shadow: 1px 1px 9px #333333;
     }
+
     .live-title {
         padding-left: 5%;
         cursor: pointer;

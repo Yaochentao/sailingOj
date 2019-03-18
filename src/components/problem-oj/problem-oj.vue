@@ -58,7 +58,7 @@
                 </div>
                 <div class="btn-con-right">
                     <div style="float: right; margin: 10px 10px 0 0">
-                        <el-button size="medium" @click="getRes">执行代码</el-button>
+                        <!-- <el-button size="medium" @click="test">执行代码</el-button> -->
                         <el-button size="medium" @click="submit">提交</el-button>
                     </div>
                 </div>
@@ -145,12 +145,12 @@
         created() {
             this.getId();
             this.getProblem();
-            if(this.user_id.length > 0) {
+            if (this.user_id.length > 0) {
                 this.checkClection();
             } else {
                 console.log('unlogin')
             }
-            
+
 
         },
         methods: {
@@ -159,7 +159,7 @@
                 console.log(this.problem_id);
             },
             getProblem() {
-                this.$http.post('http://118.25.176.42/php/question-bank/problem-content.php', qs.stringify({
+                this.$http.post('http://47.102.159.98/php/question-bank/problem-content.php', qs.stringify({
                         problem_id: this.$route.query.problem_id
                     }))
                     .then((res) => {
@@ -174,7 +174,7 @@
                 if (this.user_id) {
                     let code = this.editor.getValue()
                     console.log(code)
-                    this.$http.post('http://118.25.176.42/php/problem/solution-add.php', qs.stringify({
+                    this.$http.post('http://47.102.159.98/php/problem/solution-add.php', qs.stringify({
                             user_id: this.user_id,
                             problem_id: this.problem_id,
                             source_code: code,
@@ -194,54 +194,67 @@
                     this.$message('请登录再操作');
                 }
 
-
-
-
+            },
+            test() {
+                this.$alert('test', '', {
+                    confirmButtonText: '确定',
+                    type: 'success'
+                })
             },
             getRes() {
-                this.$http.post('http://118.25.176.42/php/problem/problem-source-result.php', qs.stringify({
+                this.$http.post('http://47.102.159.98/php/problem/problem-source-result.php', qs.stringify({
                         solution_id: this.solution_id
                     }))
                     .then((res) => {
                         console.log(res.data);
-                        this.$alert(res.data.error, res.data.msg, {
-                            confirmButtonText: '确定'
-                        })
+                        let type = 'error';
+                        if (res.data.msg == 'Success!') {
+                            this.$alert(res.data.msg, '', {
+                                confirmButtonText: '确定',
+                                type: 'success'
+                            })
+                        } else {
+                            this.$alert(res.data.error, res.data.msg, {
+                                confirmButtonText: '确定',
+                                type: 'error'
+                            })
+                        }
+
                     })
             },
             collection() {
                 console.log('collection')
-                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
-                    user_id: this.user_id,
-                    problem_id: this.problem_id,
-                    type: 'collect'
-                }))
-                .then((res) => {
-                    console.log(res.data);
-                    this.ifCollect = true;
-                })
+                this.$http.post('http://47.102.159.98/php/personal/collection.php', qs.stringify({
+                        user_id: this.user_id,
+                        problem_id: this.problem_id,
+                        type: 'collect'
+                    }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.ifCollect = true;
+                    })
             },
             unCollection() {
                 console.log('unCollection')
-                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
-                    user_id: this.user_id,
-                    problem_id: this.problem_id,
-                    type: 'delete'
-                }))
-                .then((res) => {
-                    console.log(res.data);
-                    this.ifCollect = false;
-                })
+                this.$http.post('http://47.102.159.98/php/personal/collection.php', qs.stringify({
+                        user_id: this.user_id,
+                        problem_id: this.problem_id,
+                        type: 'delete'
+                    }))
+                    .then((res) => {
+                        console.log(res.data);
+                        this.ifCollect = false;
+                    })
             },
             checkClection() {
-                this.$http.post('http://47.102.159.98/php/personal/check-collect.php',qs.stringify({
-                    user_id: this.user_id,
-                    problem_id: this.problem_id,
-                }))
-                .then((res) => {
-                    console.log(res.data)
-                    this.ifCollect = res.data.code == 1 ? true : false;
-                })
+                this.$http.post('http://47.102.159.98/php/personal/check-collect.php', qs.stringify({
+                        user_id: this.user_id,
+                        problem_id: this.problem_id,
+                    }))
+                    .then((res) => {
+                        console.log(res.data)
+                        this.ifCollect = res.data.code == 1 ? true : false;
+                    })
             }
         },
         computed: {

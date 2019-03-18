@@ -4,14 +4,13 @@
             <h3 class="details-title">能力评价</h3>
         </div>
         <div class="left-con">
-            <span class="avatars"></span>
+            <img :src="this.photo" class="avatars" />
             <span class="name">失格丶</span>
             <div class="ablity-num">
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">123</span></li>
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">123</span></li>
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">123</span></li>
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">123</span></li>
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">123</span></li>
+                <li style="font-size: 18px;">基础算法： <span style="font-size: 15px; color: #acadad;">40</span></li>
+                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">100</span></li>
+                <li style="font-size: 18px;">排序： <span style="font-size: 15px; color: #acadad;">28</span></li>
+                <li style="font-size: 18px;">查找： <span style="font-size: 15px; color: #acadad;">35</span></li>
             </div>
         </div>
         <div class="radar-con">
@@ -22,6 +21,15 @@
 <script>
     import Radar from '../radar/radar'
     export default {
+        computed: {
+            nick() {
+                return this.$store.state.nick;
+            },
+            photo() {
+                return 'http://47.102.159.98' + this.$store.state.photo;
+                // return 'https://farm4.staticflickr.com/3931/15532327436_74c32632ac_k.jpg'
+            }
+        },
         components: {
             Radar
         }
@@ -45,12 +53,14 @@
         font-size: 20px;
         display: inline-block;
     }
+
     .left-con {
         margin-left: 10%;
         width: 45%;
         display: inline-block;
         vertical-align: top;
     }
+
     .radar-con {
         margin-right: 5%;
         width: 40%;
@@ -76,6 +86,7 @@
         height: 76px;
         display: inline-block;
     }
+
     .ablity-num {
         margin: 20px 0 0 14px;
     }

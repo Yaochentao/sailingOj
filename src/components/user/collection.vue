@@ -19,7 +19,8 @@
                 <el-table-column prop="submit" label="热度">
                 </el-table-column>
             </el-table>
-            <el-pagination style="margin: 20px 0 20px 20px;float: right" background layout="prev, pager, next" :total="1000">
+            <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10" @current-change="handleCurrentChange"
+                background layout="prev, pager, next" :total="this.totalPage*10">
             </el-pagination>
         </div>
     </div>
@@ -29,7 +30,9 @@
     export default {
         data() {
             return {
-                collections: []
+                collections: [],
+                currentPage: 1,
+                totalPage: '',
             }
         },
         created() {
@@ -44,7 +47,19 @@
                 .then((res) => {
                     console.log(res.data);
                     this.collections = res.data.data;
+                    this.totalPage = res.data.pages;
                 })
+            },
+            handleCurrentChange(val) {
+                console.log(val);
+                this.$http.post('http://47.102.159.98/php/personal/collection.php',qs.stringify({
+                user_id: 'admin',
+                page: val
+            }))
+            .then((res) => {
+                console.log(res.data)
+                this.uploadHistory = res.data.data;
+            })
             }
         },
         computed: {

@@ -4,12 +4,15 @@
             <div slot="header" class="clearfix">
                 <span>发布公告</span>
             </div>
-            <el-input type="textarea" :rows="8" placeholder="请输入内容" v-model="textarea">
+            <el-input style="margin-bottom:10px" type="textarea" :rows="2" placeholder="请输入标题" v-model="title">
+            </el-input>
+            <el-input type="textarea" :rows="8" placeholder="请输入内容" v-model="content">
             </el-input>
             <p style="color: #c1c1c1;font-size: 14px;">{{noticeNum}}/140</p>
             <div class="btn-con">
-                <el-button size='medium'>确定</el-button>
+                
                 <el-button size='medium' @click="cardShow = false">取消</el-button>
+                <el-button size='medium' @click="addNotice">确定</el-button>
             </div>
         </el-card>
         <div class="details-header">
@@ -17,51 +20,67 @@
             <el-button size='mini' type="primary" style="float: right;margin: 4px 10px 0 0" @click="cardShow = true">+发布</el-button>
         </div>
         <div class="notice-list">
-            <div class="notice-card">
-                <h4 class="notice-title">独家直播！雪未来第十年纪念演唱会<span>2019-02-10 15:00:00</span></h4>
-                <p class="notice-content">在雪未来(SNOW MIKU)步入第10年之际，bilibili将独家线上放送「SNOW MIKU LIVE! 2019」2月10日
-                    夜场演唱会，给你一个冰雪之夜！直播时间：16:00-19:00，直播间更能赢取丰富奖品！听从雪的召唤，我们
-                    官方直播间见！→<a href="">https://live.bilibili.com/5440</a> 2月11日开启大会员专享精彩回看！→ <a href="">https://www.bili
-                        bili.com/bangumi/play/ss26484</a> </p>
+            <div class="notice-card" v-for="item in notices" :key="item.index">
+                <h4 class="notice-title">{{item.title}}<span>{{item.time}}</span></h4>
+                <p class="notice-content">{{item.content}}</p>
             </div>
 
         </div>
+        <el-pagination style="margin: 20px 40px 20px 20px;float: right" :current-page="currentPage" :page-size="10" @current-change="handleCurrentChange"
+                background layout="prev, pager, next" :total="this.totalPage*10">
+        </el-pagination>
     </div>
 </template>
 <script>
+import qs from 'qs'
     export default {
         data() {
             return {
                 cardShow: false,
-                textarea:'',
-                activeName: 'first',
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '充值',
-                    address: '23',
-                    state: '完成'
-                }, {
-                    date: '2016-05-04',
-                    name: '提现',
-                    address: '90',
-                    state: '完成'
-                }, {
-                    date: '2016-05-01',
-                    name: '充值',
-                    address: '200',
-                    state: '处理中'
-                }, {
-                    date: '2016-05-03',
-                    name: '充值',
-                    address: '516',
-                    state: '完成'
-                }]
+                title: '',
+                content: '',
+                notices: null,
+                currentPage: 1,
+                totalPage: '',
+            }
+        },
+        created() {
+            this.getNotice();
+        },
+        methods: {
+            getNotice() {
+                this.$http.get('http://47.102.159.98/php/administrator/Announcement-list.php')
+                .then((res) => {
+                    console.log(res.data);
+                    this.notices = res.data.data;
+                    this.totalPage = res.data.pages
+                })
+            },
+            addNotice() {
+                
+                this.$http.post('http://47.102.159.98/php/administrator/Announce.php',qs.stringify({
+                    content: this.content,
+                    title: this.title
+                }))
+                .then((res) => {
+                    this.cardShow = false;
+                })
+            },
+            handleCurrentChange(val) {
+                console.log(val);
+                this.$http.post('http://47.102.159.98/php/administrator/Announcement-list.php',qs.stringify({
+                page: val
+            }))
+            .then((res) => {
+                console.log(res.data)
+                this.notices = res.data.data;
+            })
             }
         },
         computed: {
             noticeNum() {
                 return(
-                    this.textarea.length
+                    this.content.length
                 )
             }
         }
@@ -81,7 +100,7 @@
         top: 100px;
         left: 66px;
         width: 600px;
-        height: 350px;
+        height: 400px;
     }
 
     .card-header {

@@ -55,8 +55,8 @@
                         <p class="my-rank">我的排名： {{myrank}}</p>
                     </div>
                     <div class="radar-con">
-                        <span class="avatars"></span>
-                        <span class="name">失格丶</span>
+                        <img :src="photo" class="avatars" />
+                        <span class="name">{{nick}}</span>
                         <radar />
                     </div>
                 </div>
@@ -137,6 +137,13 @@
             },
             user_id() {
                 return this.$store.state.user_id;
+            },
+            nick() {
+                return this.$store.state.nick;
+            },
+            photo() {
+                return 'http://47.102.159.98' + this.$store.state.photo;
+                // return 'https://farm4.staticflickr.com/3931/15532327436_74c32632ac_k.jpg'
             }
         },
         components: {
@@ -335,7 +342,6 @@
         width: 76px;
         height: 76px;
         border-radius: 38px;
-        background: #555;
     }
 
     .name {

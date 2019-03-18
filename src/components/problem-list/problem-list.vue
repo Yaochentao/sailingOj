@@ -5,20 +5,20 @@
                 <h1 class="title">题库列表</h1>
                 <div class="table-con" style="margin: 20px 0 20px 0">
                     <el-table :data="problems" stripe style="width: 100%;" @row-click="toProblemOj">
-                        <el-table-column prop="problem_id" label="序号" width="80">
+                        <el-table-column sortable prop="problem_id" label="序号" width="100">
                         </el-table-column>
                         <el-table-column prop="title" label="题目名称">
                         </el-table-column>
-                        <el-table-column width='240'>
+                        <el-table-column width='240' label="标签">
                             <template slot-scope="scope">
                                 <el-tag v-if='scope.row.label[0]' size="small" style="margin-right: 3px">{{scope.row.label[0]}}</el-tag>
                                 <el-tag v-if='scope.row.label[1]' size="small" type="success" style="margin-right: 3px">{{scope.row.label[1]}}</el-tag>
                                 <el-tag v-if='scope.row.label[2]' size="small" type="warning" style="margin-right: 3px">{{scope.row.label[2]}}</el-tag>
                             </template>
                         </el-table-column>
-                        <el-table-column prop="ac" label="正确率">
+                        <el-table-column sortable prop="ac" label="正确率">
                         </el-table-column>
-                        <el-table-column prop="sum" label="热度">
+                        <el-table-column sortable prop="sum" label="热度">
                         </el-table-column>
                     </el-table>
                     <div class="pagination-con" style="float: right; margin: 10px 0 10px 0;">
@@ -30,17 +30,17 @@
                 </div>
             </div>
             <div class="right-con">
-                <span class="uploadBtn">上传题目</span>
+                <router-link to="/upload-problem"><span class="uploadBtn">上传题目</span></router-link>
                 <div class="serch-con card">
                     <el-input size="small" placeholder="搜索题目" style="margin: 10px 0 10px 0" v-model="searchValue">
                         <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                     </el-input>
-                    <el-radio-group v-model="rankType" @change="changeProblem">
+                    <!-- <el-radio-group v-model="rankType" @change="changeProblem">
                         <el-radio :label="1">按题号排序</el-radio>
                         <el-radio :label="2">按热度排序</el-radio>
                         <el-radio :label="3">按名称排序</el-radio>
                         <el-radio :label="4">按正确率排序</el-radio>
-                    </el-radio-group>
+                    </el-radio-group> -->
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">基础算法</h3>
@@ -48,12 +48,12 @@
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">排序</h3>
-                    <el-tag v-for="item in tags.排序" v-bind:key="item.label_id" size="small" type="success" style="margin-right: 5px">2018</el-tag>
+                    <el-tag v-for="item in tags.排序" v-bind:key="item.label_id" size="small" type="success" style="margin-right: 5px">{{item.content}}</el-tag>
 
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">查找</h3>
-                    <el-tag v-for="item in tags.查找" v-bind:key="item.label_id" size="small" type="warning" style="margin-right: 5px">数组</el-tag>
+                    <el-tag v-for="item in tags.查找" v-bind:key="item.label_id" size="small" type="warning" style="margin-right: 5px">{{item.content}}</el-tag>
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
             }
         },
         created() {
-            this.$http.get('http://118.25.176.42/php/question-bank/label-group.php')
+            this.$http.get('http://47.102.159.98/php/question-bank/label-group.php')
                 .then((res) => {
                     this.tags = res.data;
                 })
