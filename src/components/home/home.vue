@@ -32,7 +32,7 @@
                     <div class="data-con" style="padding: 10px;">
                         <div style="display: flex; width: 100%">
                             <div style="width: 180px">
-                                <h3 style="font-size: 26px; color: #2e9d81">Hi , <i style="font-size: 18px; color: #cdd1cc">失格丶</i></h3>
+                                <h3 style="font-size: 26px; color: #2e9d81">Hi , <i style="font-size: 18px; color: #cdd1cc">{{nick}}</i></h3>
                                 <p style="font-size: 13px;color: #cdd1cc">打卡记录你的进步</p>
                                 <span class="register-btn" @click="daka">{{dakaMsg}}</span>
                             </div>
@@ -52,9 +52,9 @@
                     <div class="rank-con">
                         <h3 class="title">积分排行榜</h3>
                         <li v-for="item in rank" :key="item.rowno" class="rank-item">{{item.rowno}}.{{item.nick}}</li>
-                        <p class="my-rank">我的排名： {{myrank}}</p>
+                        <p v-show="this.user_id" class="my-rank">我的排名： {{myrank}}</p>
                     </div>
-                    <div class="radar-con">
+                    <div class="radar-con" v-show="this.user_id">
                         <img :src="photo" class="avatars" />
                         <span class="name">{{nick}}</span>
                         <radar />

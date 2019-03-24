@@ -4,10 +4,11 @@
             <h3 class="details-title">题目管理</h3>
             <el-button size='mini' type="primary" style="float: right;margin: 4px -160px 0 0">+上传</el-button>
         </div>
-        <el-tabs v-model="activeName" class="table-con" type="card">
-            <el-tab-pane label="题目" name="first">
-                <div>
-                    <el-table :data="problems" style="width: 100%">
+                <div class="table-con">
+                    <el-input size="small" placeholder="搜索题目" style="margin: 10px 0 10px 0" v-model="searchValue">
+                        <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                    </el-input>
+                    <el-table :data="problems" style="width: 100%" @row-click="toProblemDetail">
                         <el-table-column prop="problem_id" label="题目编号">
                         </el-table-column>
                         <el-table-column prop="title" label="题目名称">
@@ -17,6 +18,7 @@
                         <el-table-column label="操作">
                             <template slot-scope="scope">
                                 <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click="pass(scope.row)">通过</el-button>
+                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click="pass(scope.row)">不通过</el-button>
                                 <el-button v-if="scope.row.defunct == 0" style="color: red" type="text" size="small" @click="deleteProblem(scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
@@ -25,28 +27,6 @@
                         @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
                     </el-pagination>
                 </div>
-            </el-tab-pane>
-            <!-- <el-tab-pane label="待审核题目" name="second">
-                <div>
-                    <el-table :data="problems" style="width: 100%">
-                        <el-table-column prop="problem_id" label="题目编号">
-                        </el-table-column>
-                        <el-table-column prop="title" label="题目名称">
-                        </el-table-column>
-                        <el-table-column prop="user_id" label="上传者">
-                        </el-table-column>
-                        <el-table-column label="操作">
-                            <el-button type="text" size="small">通过</el-button>
-                            <el-button type="text" size="small">查看</el-button>
-                            <el-button type="text" size="small">驳回</el-button>
-                        </el-table-column>
-                    </el-table>
-                    <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10"
-                        @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
-                    </el-pagination>
-                </div>
-            </el-tab-pane> -->
-        </el-tabs>
 
     </div>
 </template>
@@ -59,6 +39,7 @@
                 problems: [],
                 currentPage: 1,
                 totalPage: '',
+                searchValue: '',
             }
         },
         created() {
@@ -107,6 +88,24 @@
                         this.getProblemList();
                     })
             },
+            toProblemDetail(row) {
+                console.log(row.problem_id)
+                this.$router.push({
+                    path: '/problem-detail',
+                    query: {
+                        problem_id: row.problem_id
+                    }
+                })
+            },
+            search() {
+                this.$http.post('http://47.102.159.98/php/question-bank/search.php',qs.stringify({
+                    string: this.searchValue
+                }))
+                .then((res) => {
+                    this.problems = res.data.data;
+                    this.totalPage = res.data.pages
+                })
+            }
         },
 
     }

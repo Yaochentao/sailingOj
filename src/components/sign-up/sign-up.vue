@@ -23,7 +23,7 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="login">登录</el-button>
-                    <el-button>去注册</el-button>
+                    <router-link style="margin-left: 20px" to="/sign-in"><el-button>去注册</el-button></router-link>
                 </el-form-item>
             </el-form>
 

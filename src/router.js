@@ -25,6 +25,8 @@ import problemManage from './components/admin/problem-manage'
 import noticeManage from './components/admin/notice-manage'
 import tagManage from './components/admin/tag-manage'
 import uploadProblem from './components/upload-problem/upload-problem'
+import problemDetail from './components/problem-detail'
+import myLive from './components/user/my-live'
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +43,10 @@ export default new Router({
         {
           path: 'details',
           component: details
+        },
+        {
+          path: 'my-live',
+          component: myLive
         },
         {
           path: 'orders',
@@ -71,6 +77,10 @@ export default new Router({
     {
       path: '/upload-problem',
       component: uploadProblem
+    },
+    {
+      path: '/problem-detail',
+      component: problemDetail
     },
     {
       path: '/admin',

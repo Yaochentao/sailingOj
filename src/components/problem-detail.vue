@@ -30,9 +30,9 @@
                 <el-input type="textarea" :rows="2" placeholder="请输入标准输出" v-model="sample_output">
                 </el-input>
                 <h4>提示</h4>
-                <el-input type="textarea" :rows="2" placeholder="请输入提示" v-model="hint">
+                <el-input type="textarea" :rows="2" placeholder="请输入提示" v-model="textarea">
                 </el-input>
-                <el-button style="margin-top: 20px;float: right" size="medium" @click="upload">提交</el-button>
+                <el-button style="margin-top: 20px;float: right" size="medium" @click="upload">提交修改</el-button>
             </div>
         </div>
     </div>
@@ -50,7 +50,6 @@
                 output: '',
                 sample_input: '',
                 sample_output: '',
-                hint:'',
                 limit: 3,
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 options: [{
@@ -82,8 +81,24 @@
                     this.options[1].options = res.data.排序;
                     this.options[2].options = res.data.查找;
                 })
+            this.getProblem();
         },
         methods: {
+            getProblem() {
+                this.$http.post('http://47.102.159.98/php/question-bank/problem-content.php',qs.stringify({
+                    problem_id: this.$route.query.problem_id
+                }))
+                .then((res) => {
+                    console.log(res.data);
+                    this.title = res.data.data.title;
+                    this.description = res.data.data.description;
+                    this.input = res.data.data.input;
+                    this.output = res.data.data.output;
+                    this.sample_input = res.data.data.sample_input;
+                    this.sample_output = res.data.data.sample_output;
+                    this.SelectTags = res.data.data.label.split(',');
+                })
+            },
             upload() {
                 this.$http.post('http://47.102.159.98/php/question-bank/problem-add.php', qs.stringify({
                         user_id: this.user_id,
@@ -96,7 +111,7 @@
                         output: this.output,
                         sample_input: this.sample_input,
                         sample_output: this.sample_output,
-                        hint: this.hint,
+                        hint: '',
                         source: '',
                         spj: 0
                     }))

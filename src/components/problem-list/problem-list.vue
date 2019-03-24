@@ -42,18 +42,21 @@
                         <el-radio :label="4">按正确率排序</el-radio>
                     </el-radio-group> -->
                 </div>
+                <div class="card" v-show="selectTags.length > 0">
+                    <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">已选标签筛选项</h3>
+                    <el-tag @close="removeTag(item)" v-for="item in selectTags" type="info" v-bind:key="item.label_id" size="small" closable style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
+                </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">基础算法</h3>
-                    <el-tag v-for="item in tags.基础算法" v-bind:key="item.label_id" size="small" style="margin-right: 5px">{{item.content}}</el-tag>
+                    <el-tag @click="selectTag(item)" v-for="item in tags.基础算法" v-bind:key="item.label_id" size="small" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">排序</h3>
-                    <el-tag v-for="item in tags.排序" v-bind:key="item.label_id" size="small" type="success" style="margin-right: 5px">{{item.content}}</el-tag>
-
+                    <el-tag @click="selectTag(item)" v-for="item in tags.排序" v-bind:key="item.label_id" size="small" type="success" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">查找</h3>
-                    <el-tag v-for="item in tags.查找" v-bind:key="item.label_id" size="small" type="warning" style="margin-right: 5px">{{item.content}}</el-tag>
+                    <el-tag @click="selectTag(item)" v-for="item in tags.查找" v-bind:key="item.label_id" size="small" type="warning" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
             </div>
         </div>
@@ -68,6 +71,7 @@
                 currentPage: 1,
                 totalPage: '',
                 tags: [],
+                selectTags: [],
                 problems: [],
                 rankType: '1',
                 tableData: [],
@@ -124,6 +128,7 @@
                 }))
                 .then((res) => {
                     this.problems = res.data.data;
+                    this.totalPage = res.data.pages
                 })
             },
             handleCurrentChange(val) {
@@ -135,6 +140,41 @@
                 .then((res) => {
                     this.problems = res.data.data;
                 })
+            },
+            selectTag(item) {
+                this.selectTags.push(item);
+            },
+            removeTag(item) {
+                var index = this.selectTags.indexOf(item);
+                if (index > -1) {
+                    this.selectTags.splice(index, 1);
+                }
+            },
+            selectByTag(tags) {
+                this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
+                    'rank.type': this.rankType,
+                    label: tags
+                }))
+                .then((res) => {
+                    this.problems = res.data.data;
+                    this.totalPage = res.data.pages
+                })
+            }
+        },
+        watch: {
+            selectTags(newSelctTags) {
+                console.log(newSelctTags)
+                let string_1 = '';
+                for(let i = 0;i<newSelctTags.length;i++) {
+                    if(string_1.length > 0) {
+                        string_1 = newSelctTags[i].label_id + ',' + string_1;
+                    } else {
+                        string_1 = newSelctTags[i].label_id  + string_1;
+                    }
+                }
+                console.log(string_1)
+
+                this.selectByTag(string_1)
             }
         }
     }

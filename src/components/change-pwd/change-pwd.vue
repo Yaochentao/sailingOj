@@ -6,7 +6,7 @@
                     <span class="title-left">找回密码</span>
                     <span class="title-right">FIND CODE</span>
                 </div>
-                <p class="forget-btn">我想起来了，去登陆></p>
+                <router-link to="/sign-up"><p class="forget-btn">我想起来了，去登陆></p></router-link>
             </div>
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" style="margin-left: 34px;">
                 <el-form-item class="form-item" label='验证手机' prop="id">
@@ -31,8 +31,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">登录</el-button>
-                    <el-button>注册</el-button>
+                    <el-button style="float:right;margin-right: 140px" type="primary">确认</el-button>
                 </el-form-item>
             </el-form>
 
@@ -50,9 +49,7 @@
         data() {
             return {
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
-
-                identifyCodes: "1234567890",
-                identifyCode: "", //图片验证码
+                code: '',
 
 
 
@@ -87,27 +84,19 @@
             window.onresize = function () { // 定义窗口大小变更通知事件
                     // _this.screenWidth = document.documentElement.clientWidth // 窗口宽度
                     _this.screenHeight = document.documentElement.clientHeight // 窗口高度
-                },
+                }
 
-                this.identifyCode = "";
-            this.makeCode(this.identifyCodes, 4); //初始化图片验证码
         },
         methods: {
-            randomNum(min, max) {
-                return Math.floor(Math.random() * (max - min) + min);
+            getVcode() {
+                console.log('code')
+                this.$http.post('http://47.102.159.98/php/login/check-vcode.php', qs.stringify({
+                        user_id: 13372416908
+                    }))
+                    .then((res) => {
+                        this.code = res.data.vcode
+                    })
             },
-            refreshCode() {
-                this.identifyCode = "";
-                this.makeCode(this.identifyCodes, 4);
-            },
-            makeCode(o, l) {
-                for (let i = 0; i < l; i++) {
-                    this.identifyCode += this.identifyCodes[
-                        this.randomNum(0, this.identifyCodes.length)
-                    ];
-                }
-                console.log(this.identifyCode);
-            }
         },
         components: {
             SIdentify
@@ -192,5 +181,6 @@
         font-size: 13px;
         float: right;
         cursor: pointer;
+        color: #000;
     }
 </style>

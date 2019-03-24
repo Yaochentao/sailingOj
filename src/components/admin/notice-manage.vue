@@ -135,6 +135,7 @@ import qs from 'qs'
     }
 
     .notice-card {
+        min-height: 66px;
         margin: 20px 0;
         border-radius: 5px;
         padding: 10px;

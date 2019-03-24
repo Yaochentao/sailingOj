@@ -19,7 +19,7 @@
                         <i class="el-icon-setting"></i>
                         <span slot="title">能力评价</span>
                     </el-menu-item>
-                    <el-menu-item index="5">
+                    <el-menu-item index="5" @click="toMyLive">
                         <i class="el-icon-setting"></i>
                         <span slot="title">我的直播</span>
                     </el-menu-item>
@@ -69,6 +69,9 @@
             },
             toAbility() {
                 this.$router.push('/user/ability')
+            },
+            toMyLive() {
+                this.$router.push('/user/my-live')
             },
             toSubmitHistory() {
                 this.$router.push('/user/submit-history')
