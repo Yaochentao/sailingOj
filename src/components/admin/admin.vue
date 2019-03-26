@@ -11,14 +11,14 @@
                         <i class="el-icon-menu"></i>
                         <span slot="title">题目管理</span>
                     </el-menu-item>
-                    <el-menu-item index="3">
+                    <el-menu-item index="3" @click="toOrder">
                         <i class="el-icon-document"></i>
                         <span slot="title">订单管理</span>
                     </el-menu-item>
-                    <el-menu-item index="4">
+                    <!-- <el-menu-item index="4">
                         <i class="el-icon-setting"></i>
                         <span slot="title">直播管理</span>
-                    </el-menu-item>
+                    </el-menu-item> -->
                     <el-menu-item index="5" @click="toNoticeM">
                         <i class="el-icon-setting"></i>
                         <span slot="title">公告管理</span>
@@ -63,8 +63,8 @@
             toTagManage() {
                 this.$router.push('/admin/tag-manage')
             },
-            toCollection() {
-                this.$router.push('/user/collection')
+            toOrder() {
+                this.$router.push('/admin/orderManager')
             }
 
 

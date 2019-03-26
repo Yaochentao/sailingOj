@@ -2,10 +2,13 @@
     <div class="live" :style="{minHeight:(screenHeight-60)+'px'}">
         <div class="container" :style="{minHeight:(screenHeight-60)+'px'}">
             <div class="live-header">
-                <h3 class="title">Google资深工程师深度讲解Go语言</h3>
-                <div class="teacher-con">
+                <h3 class="title">{{liveDetail.live_name}}</h3>
+                <!-- <div class="teacher-con">
                     <span class="avatar"></span>
                     <span class="teacher-name">XXX<br>Google高级软件工程师</span>
+                </div> -->
+                <div class="teacher-con">
+                    <p>{{liveDetail.description}}</p>
                 </div>
             </div>
             <div class="flex-con" style="display: flex">
@@ -17,26 +20,15 @@
                 <div class="comment-con">
                     <el-scrollbar style="height:100%">
                         <div class="comment">
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
-                            <li style="line-height: 30px;"><span style="color: #AFDEFF">失格丶：</span><span style="">这是一条弹幕</span></li>
+                            <li v-for="(item,index) in comments" :key="index" style="line-height: 30px;"><span style="color: #AFDEFF">{{item.nick}}：</span><span style="">{{item.content}}</span></li>
                         </div>
                     </el-scrollbar>
                 </div>
             </div>
-            <div class="live-list-con">
+            <el-input v-model="input" placeholder="请输入内容" style="width: 80%;margin-left: 10%;">
+                <template slot="append"><el-button type="primary" @click="pushComment">发送</el-button></template>    
+            </el-input> 
+            <!-- <div class="live-list-con">
                 <h3 style="font-weight:bold;line-height: 2;">相关直播推荐</h3>
                 <el-row :gutter="12">
                     <el-col :span="8">
@@ -75,11 +67,12 @@
 
                 </el-row>
 
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 <script>
+import qs from 'qs';
     require('video.js/dist/video-js.css')
     require('vue-video-player/src/custom-theme.css')
     import 'videojs-contrib-hls'
@@ -89,6 +82,9 @@
     export default {
         data() {
             return {
+                liveDetail: {},
+                comments:[],
+                input: '',
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 playerOptions: {
                     // playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -119,7 +115,7 @@
                         remainingTimeDisplay: false,
                         currentTimeDisplay: false, // 当前时间
                         volumeControl: false, // 声音控制键
-                        playToggle: false, // 暂停和播放键
+                        playToggle: true, // 暂停和播放键
                         progressControl: false, // 进度条
                         fullscreenToggle: true // 全屏按钮
                     },
@@ -133,6 +129,15 @@
                 _this.screenHeight = document.documentElement.clientHeight // 窗口高度
             };
         },
+        created() {
+            this.$http.post('http://47.102.159.98/php/live/getlive.php', qs.stringify({
+                user_id: this.$route.query.user_id
+            }))
+            .then((res) => {
+                this.liveDetail = res.data.data;
+            })
+            this.getComment();
+        },
         methods: {
             onPlayerPlay(player) {
                 console.log("play");
@@ -140,10 +145,33 @@
             onPlayerPause(player) {
                 console.log("pause");
             },
+            pushComment() {  //发送弹幕
+                this.$http.post('http://47.102.159.98/php/live/barrage.php',qs.stringify({
+                    id: this.$route.query.id,
+                    user_id: this.user_id,
+                    content: this.input
+                }))
+                .then((res) => {
+                    console.log(res.data)
+                    this.input = '';
+                })
+            },
+            getComment() {
+                this.$http.post('http://47.102.159.98/php/live/barrage-show.php',qs.stringify({
+                    id: this.$route.query.id
+                }))
+                .then((res) => {
+                    this.comments = res.data.data
+                    console.log(this.comments)
+                })
+            }
         },
         computed: {
             player() {
                 return this.$refs.videoPlayer.player;
+            },
+            user_id() {
+                return this.$store.state.user_id
             }
         },
         components: {

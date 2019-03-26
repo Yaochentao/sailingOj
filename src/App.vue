@@ -56,7 +56,7 @@
                     <div class="nav-item" @click="toOrders">我的钱包</div>
                     <div class="nav-item" @click="toNotice">系统消息</div>
                     <div class="nav-item" @click="toAbility">能力评价</div>
-                    <div class="nav-item">我的直播</div>
+                    <div class="nav-item" @click="toMyLive">我的直播</div>
                     <div class="nav-item" @click="toSubmitHistory">做题记录</div>
                     <div class="nav-item" @click="toUpload">贡献题目</div>
                     <div class="nav-item" @click="toCollection">我的收藏</div>
@@ -145,6 +145,12 @@
       },
       toProblemList() {
         this.$router.push('/problem-list')
+        this.show = false;
+        this.show1 = false;
+        this.show2 = false;
+      },
+      toMyLive() {
+        this.$router.push('/user/my-live')
         this.show = false;
         this.show1 = false;
         this.show2 = false;

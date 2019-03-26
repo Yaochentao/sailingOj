@@ -17,9 +17,9 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click="pass(scope.row)">通过</el-button>
-                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click="pass(scope.row)">不通过</el-button>
-                                <el-button v-if="scope.row.defunct == 0" style="color: red" type="text" size="small" @click="deleteProblem(scope.row)">删除</el-button>
+                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click.stop="pass(scope.row)">通过</el-button>
+                                <el-button v-if="scope.row.defunct == 1"  type="text" size="small" @click.stop="deleteProblem(scope.row)">不通过</el-button>
+                                <el-button v-if="scope.row.defunct == 0" style="color: red" type="text" size="small" @click.stop="deleteProblem(scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>

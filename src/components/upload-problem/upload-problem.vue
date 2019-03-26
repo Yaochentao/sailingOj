@@ -9,7 +9,7 @@
                 <h4>题目描述</h4>
                 <el-input type="textarea" :rows="3" placeholder="请输入题目描述" v-model="description">
                 </el-input>
-                <h4>题目标签</h4>
+                <h4>题目标签（选填）</h4>
                 <el-select v-model="SelectTags" multiple placeholder="请选择" :multiple-limit='limit' style="width: 100%">
                     <el-option-group v-for="group in options" :key="group.label" :label="group.label">
                         <el-option v-for="item in group.options" :key="item.label_id" :label="item.content"
@@ -29,7 +29,7 @@
                 <h4>标准输出</h4>
                 <el-input type="textarea" :rows="2" placeholder="请输入标准输出" v-model="sample_output">
                 </el-input>
-                <h4>提示</h4>
+                <h4>提示（选填）</h4>
                 <el-input type="textarea" :rows="2" placeholder="请输入提示" v-model="hint">
                 </el-input>
                 <el-button style="margin-top: 20px;float: right" size="medium" @click="upload">提交</el-button>
@@ -50,7 +50,7 @@
                 output: '',
                 sample_input: '',
                 sample_output: '',
-                hint:'',
+                hint: '',
                 limit: 3,
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 options: [{
@@ -59,7 +59,7 @@
                 }, {
                     label: '排序',
                     options: []
-                },{
+                }, {
                     label: '查找',
                     options: []
                 }],
@@ -101,7 +101,13 @@
                         spj: 0
                     }))
                     .then((res) => {
-                        console.log(res.data)
+                        console.log(res.data.code)
+                        if (res.data.code == 1) {
+                            this.$message({
+                                message: '上传成功',
+                                type: 'success'
+                            });
+                        }
                     })
             }
         },
@@ -111,8 +117,8 @@
             },
             label_string() {
                 let string_1 = '';
-                for(let i = 0;i<this.SelectTags.length;i++) {
-                    if(string_1.length > 0) {
+                for (let i = 0; i < this.SelectTags.length; i++) {
+                    if (string_1.length > 0) {
                         string_1 = this.SelectTags[i] + ',' + string_1;
                     } else {
                         string_1 = this.SelectTags[i] + string_1;

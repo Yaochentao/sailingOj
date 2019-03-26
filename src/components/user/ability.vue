@@ -7,8 +7,9 @@
             <img :src="this.photo" class="avatars" />
             <span class="name">失格丶</span>
             <div class="ablity-num">
+                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">30</span></li>
                 <li style="font-size: 18px;">基础算法： <span style="font-size: 15px; color: #acadad;">40</span></li>
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">100</span></li>
+                
                 <li style="font-size: 18px;">排序： <span style="font-size: 15px; color: #acadad;">28</span></li>
                 <li style="font-size: 18px;">查找： <span style="font-size: 15px; color: #acadad;">35</span></li>
             </div>

@@ -2,7 +2,7 @@
     <div class="live-list" :style="{minHeight:(screenHeight-60)+'px'}">
         <div class="container" :style="{minHeight:(screenHeight-60)+'px'}">
             <div class="header">直播</div>
-            <div class="tab-con">
+            <!-- <div class="tab-con">
                 <el-radio-group v-model="activeTab" style="margin: 30px;">
                     <el-radio-button label="一对一"></el-radio-button>
                     <el-radio-button label="一对多"></el-radio-button>
@@ -10,108 +10,36 @@
                 <el-input size="small" placeholder="搜索直播" style="margin: 40px 20px 10px 0;width: 240px;float: right">
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </el-input>
-            </div>
-            <el-row :gutter="12">
-                <el-col :span="8">
+            </div> -->
+            <el-row :gutter="12" style="margin-top: 20px;">
+                <el-col :span="8" v-for="(item,index) in liveList" :key="index">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img @click="toLive" src="../../assets/img/live-img.jpg" style="display: block;width: 100%;cursor: pointer;">
-                        <h4 @click="toLive" class="live-title">Google资深工程师深度讲解Go语言</h4>
+                        <img @click="toLive(item)" src="../../assets/img/live-img.jpg" style="display: block;width: 100%;cursor: pointer;">
+                        <h4 @click="toLive(item)" class="live-title">{{item.live_name}}</h4>
                         <div class="live-title-con">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
+                            <span class="live-desc">{{item.description}}</span>
+                            <!-- <span class="audience-num">1234人<br>正在观看</span> -->
                         </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img1.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">专为程序员设计的线性代数课程</h4>
-                        <div class="live-title-con">
-                            <span class="live-desc">创新设计+通俗易懂，这一次，bobo老师带你彻底学会线性代数！</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con" style="display:flex">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con" style="display:flex">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con" style="display:flex">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con" style="display:flex">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
-                    </el-card>
-                </el-col>
-                <el-col :span="8">
-                    <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img src="../../assets/img/live-img.jpg" style="display: block;width: 100%">
-                        <h4 class="live-title">Google资深工程师深度讲解Go语言</h4>
-                        <div class="live-title-con" style="display:flex">
-                            <span class="live-desc">基本语法、函数式编程、面向接口、并发编程、分布式爬虫实战 全面掌握Go语言</span>
-                            <span class="audience-num">1234人<br>正在观看</span>
-                        </div>
-                        <span class="live-tag">直播中</span>
+                        <span class="live-tag" v-if="item.is_living == 1">直播中</span>
                     </el-card>
                 </el-col>
             </el-row>
-            <el-pagination style="margin: 10px;float: right" background layout="prev, pager, next" :total="1000">
+            <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10"
+                @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
             </el-pagination>
         </div>
     </div>
 </template>
 <script>
+import qs from 'qs';
     export default {
         data() {
             return {
+                liveList: [],
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
-                activeTab: '一对一'
+                activeTab: '一对一',
+                currentPage: 1,
+                totalPage: '',
             }
         },
         mounted() {
@@ -121,11 +49,37 @@
                 _this.screenHeight = document.documentElement.clientHeight // 窗口高度
             };
         },
+        created() {
+            this.getLiveList();
+        },
         methods: {
-            toLive() {
-                this.$router.push('/live');
-                console.log('1')
-            }
+            toLive(item) {
+
+                this.$router.push({
+                    path: '/live',
+                    query: {
+                        user_id: item.user_id,
+                        id: item.id
+                    }
+                })
+            },
+            getLiveList() {
+                this.$http.get('http://47.102.159.98/php/live/getlive-list.php')
+                .then((res) => {
+                    this.liveList = res.data.data;
+                    this.totalPage = res.data.pages;
+                })
+            },
+            handleCurrentChange(val) {
+                console.log(val);
+                this.$http.post('http://47.102.159.98/php/live/getlive-list.php', qs.stringify({
+                        page: val,
+                    }))
+                    .then((res) => {
+                        console.log(res.data)
+                        this.liveList = res.data.data;
+                    })
+            },
         }
     }
 </script>
