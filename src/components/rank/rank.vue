@@ -18,8 +18,9 @@
                 </el-table-column>
             </el-table>
             <div class="pagination-con" style="float: right; margin: 10px 10% 10px 0;">
-                <el-pagination background layout="prev, pager, next" :total="1">
-                </el-pagination>
+                <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10"
+                @current-change="handleCurrentChange" background layout="prev, pager, next" :total="this.totalPage*10">
+            </el-pagination>
             </div>
 
         </div>
@@ -33,7 +34,9 @@
             return {
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 tableData: [],
-                rank: []
+                rank: [],
+                currentPage: 1,
+                totalPage: '',
             }
         },
          mounted() {
@@ -44,11 +47,23 @@
             }
          },
          created() {
-             this.$http.get('http://118.25.176.42/php/ranking-list/ranking-list.php')
+             this.$http.get('http://47.102.159.98/php/ranking-list/ranking-list.php')
              .then((res) => {
                  console.log(res.data)
                  this.rank = res.data.data
              })
+         },
+         methods: {
+             handleCurrentChange(val) {
+                console.log(val);
+                this.$http.post('http://47.102.159.98/php/ranking-list/ranking-list.php', qs.stringify({
+                        page: val,
+                    }))
+                    .then((res) => {
+                        console.log(res.data)
+                        this.rank = res.data.data;
+                    })
+            },
          }
     }
 </script>

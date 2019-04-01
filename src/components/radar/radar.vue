@@ -1,5 +1,5 @@
 <template>
-    <div id="myChart" style="height: 300px; width: 295px"></div>
+    <div id="myChart" style="height: 300px; width: 310px"></div>
 </template>
 <script>
     // 引入基本模板
@@ -8,12 +8,14 @@
     // 引入提示框组件
     require('echarts/lib/component/tooltip')
     export default {
+        props: {
+            ability: {
+                type: Array,
+            }
+        },
         name: 'radar',
         data() {
             return {}
-        },
-        mounted() {
-            this.drawLine();
         },
         methods: {
             drawLine() {
@@ -28,11 +30,11 @@
                     radar: {
                         // shape: 'circle',
                         indicator: [{
-                                name: '基础算法',
+                                name: 'ac',
                                 max: 100
                             },
                             {
-                                name: 'ac',
+                                name: '基础',
                                 max: 100
                             },
                             {
@@ -63,10 +65,17 @@
                         },
                         // areaStyle: {normal: {}},
                         data: [{
-                            value: [40, 100, 28, 35],
+                            value: this.ability,
                         }, ]
                     }]
                 });
+            }
+        },
+        watch: {
+            ability(newAbility) {
+                if(newAbility.length > 0) {
+                    this.drawLine();
+                }
             }
         }
     }

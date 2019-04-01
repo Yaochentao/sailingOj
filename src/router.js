@@ -28,6 +28,7 @@ import uploadProblem from './components/upload-problem/upload-problem'
 import problemDetail from './components/problem-detail'
 import myLive from './components/user/my-live'
 import orderManager from './components/admin/orderManager'
+import liveManage from './components/admin/live-manage'
 Vue.use(Router)
 
 export default new Router({
@@ -107,6 +108,10 @@ export default new Router({
         {
           path: 'tag-manage',
           component: tagManage
+        },
+        {
+          path: 'live-manage',
+          component: liveManage
         }
       ]
     },

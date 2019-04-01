@@ -15,10 +15,10 @@
                         <i class="el-icon-document"></i>
                         <span slot="title">订单管理</span>
                     </el-menu-item>
-                    <!-- <el-menu-item index="4">
+                    <el-menu-item index="4">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">直播管理</span>
-                    </el-menu-item> -->
+                        <span slot="title" @click="toLiveManage">直播管理</span>
+                    </el-menu-item>
                     <el-menu-item index="5" @click="toNoticeM">
                         <i class="el-icon-setting"></i>
                         <span slot="title">公告管理</span>
@@ -59,7 +59,9 @@
             toNoticeM() {
                 this.$router.push('/admin/notice-manage')
             },
-
+            toLiveManage() {
+                this.$router.push('/admin/live-manage')
+            },
             toTagManage() {
                 this.$router.push('/admin/tag-manage')
             },

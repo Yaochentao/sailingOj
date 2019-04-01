@@ -24,10 +24,10 @@
                 <el-input type="textarea" :rows="2" placeholder="请输入输出" v-model="output">
                 </el-input>
                 <h4>标准输入</h4>
-                <el-input type="textarea" :rows="2" placeholder="请输入标准输入" v-model="sample_input">
+                <el-input type="textarea" :rows="2" placeholder="输入样本" v-model="sample_input">
                 </el-input>
                 <h4>标准输出</h4>
-                <el-input type="textarea" :rows="2" placeholder="请输入标准输出" v-model="sample_output">
+                <el-input type="textarea" :rows="2" placeholder="输出样本" v-model="sample_output">
                 </el-input>
                 <h4>提示（选填）</h4>
                 <el-input type="textarea" :rows="2" placeholder="请输入提示" v-model="hint">

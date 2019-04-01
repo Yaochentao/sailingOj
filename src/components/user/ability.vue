@@ -7,21 +7,36 @@
             <img :src="this.photo" class="avatars" />
             <span class="name">失格丶</span>
             <div class="ablity-num">
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">30</span></li>
-                <li style="font-size: 18px;">基础算法： <span style="font-size: 15px; color: #acadad;">40</span></li>
+                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">{{ability[0]}}%</span></li>
+                <li style="font-size: 18px;">基础算法： <span style="font-size: 15px; color: #acadad;">{{ability[1]}}%</span></li>
                 
-                <li style="font-size: 18px;">排序： <span style="font-size: 15px; color: #acadad;">28</span></li>
-                <li style="font-size: 18px;">查找： <span style="font-size: 15px; color: #acadad;">35</span></li>
+                <li style="font-size: 18px;">排序： <span style="font-size: 15px; color: #acadad;">{{ability[2]}}%</span></li>
+                <li style="font-size: 18px;">查找： <span style="font-size: 15px; color: #acadad;">{{ability[3]}}%</span></li>
             </div>
         </div>
         <div class="radar-con">
-            <radar />
+            <radar :ability ="this.ability"/>
         </div>
     </div>
 </template>
 <script>
+    import qs from 'qs'
     import Radar from '../radar/radar'
     export default {
+        data() {
+            return {
+                ability: [0,0,0,0]
+            }
+        },
+        created() {
+            this.$http.post('http://47.102.159.98/php/personal/power.php', qs.stringify({
+                    user_id: this.user_id
+                }))
+                .then((res) => {
+                    console.log(res.data);
+                    this.ability = res.data.data.slice(0,4);
+                })
+        },
         computed: {
             nick() {
                 return this.$store.state.nick;
@@ -29,7 +44,10 @@
             photo() {
                 return 'http://47.102.159.98' + this.$store.state.photo;
                 // return 'https://farm4.staticflickr.com/3931/15532327436_74c32632ac_k.jpg'
-            }
+            },
+            user_id() {
+                return this.$store.state.user_id;
+            },
         },
         components: {
             Radar

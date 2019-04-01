@@ -3,13 +3,13 @@
         <div class="container" :style="{minHeight:(screenHeight-60)+'px'}">
             <div class="live-header">
                 <h3 class="title">{{liveDetail.live_name}}</h3>
-                <!-- <div class="teacher-con">
-                    <span class="avatar"></span>
-                    <span class="teacher-name">XXX<br>Google高级软件工程师</span>
-                </div> -->
                 <div class="teacher-con">
-                    <p>{{liveDetail.description}}</p>
+                    <img :src="this.photo" class="avatar"/>
+                    <span src class="teacher-name">{{liveDetail.nick}}<br>{{liveDetail.description}}</span>
                 </div>
+                <!-- <div class="teacher-con">
+                    <p>{{liveDetail.description}}</p>
+                </div> -->
             </div>
             <div class="flex-con" style="display: flex">
                 <div class="player">
@@ -20,7 +20,10 @@
                 <div class="comment-con">
                     <el-scrollbar style="height:100%">
                         <div class="comment">
-                            <li v-for="(item,index) in comments" :key="index" style="line-height: 30px;"><span style="color: #AFDEFF">{{item.nick}}：</span><span style="">{{item.content}}</span></li>
+                            <li v-for="(item,index) in comments" :key="index" style="line-height: 30px;"><span style="color: #AFDEFF">{{item.nick}}：</span>
+                            <span style="">{{item.content}}</span>
+                            <span style="font-size: 10px;margin-left: 10px;">{{item.in_date}}</span>
+                            </li>
                         </div>
                     </el-scrollbar>
                 </div>
@@ -131,10 +134,10 @@ import qs from 'qs';
         },
         created() {
             this.$http.post('http://47.102.159.98/php/live/getlive.php', qs.stringify({
-                user_id: this.$route.query.user_id
+                id: this.$route.query.id
             }))
             .then((res) => {
-                this.liveDetail = res.data.data;
+                this.liveDetail = res.data.data[0];
             })
             this.getComment();
         },
@@ -154,6 +157,7 @@ import qs from 'qs';
                 .then((res) => {
                     console.log(res.data)
                     this.input = '';
+                    this.getComment();
                 })
             },
             getComment() {
@@ -172,6 +176,9 @@ import qs from 'qs';
             },
             user_id() {
                 return this.$store.state.user_id
+            },
+            photo() {
+                return 'http://47.102.159.98/php/photo/' + this.liveDetail.photo +'.jpg';
             }
         },
         components: {
@@ -216,7 +223,6 @@ import qs from 'qs';
         width: 38px;
         height: 38px;
         border-radius: 19px;
-        background: #2e9d81;
     }
 
     .teacher-name {

@@ -115,11 +115,18 @@
                             group: group
                         }))
                         .then((res) => {
-                            this.getLabel();
-                            this.$message({
-                                type: 'success',
-                                message: '成功添加‘' + value + '’标签'
+                            if(res.data.code == 0) {
+                                this.$message({
+                                    type: 'info',
+                                    message: '添加失败'
                             });
+                            } else {
+                                this.getLabel();
+                                this.$message({
+                                    type: 'success',
+                                    message: '成功添加‘' + value + '’标签'
+                            });
+                            }
                         })
                 }).catch(() => {
                     this.$message({

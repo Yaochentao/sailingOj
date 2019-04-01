@@ -18,7 +18,7 @@
                         <h4 @click="toLive(item)" class="live-title">{{item.live_name}}</h4>
                         <div class="live-title-con">
                             <span class="live-desc">{{item.description}}</span>
-                            <!-- <span class="audience-num">1234人<br>正在观看</span> -->
+                            <span class="audience-num">{{item.nick}}</span>
                         </div>
                         <span class="live-tag" v-if="item.is_living == 1">直播中</span>
                     </el-card>

@@ -8,6 +8,7 @@
                 <el-tag v-if='label[2]' size="small" type="warning" style="margin-right: 10px">{{label[2]}}</el-tag>
                 <span v-if="!ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="collection">收藏</span>
                 <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="unCollection">取消收藏</span>
+                <span style="font-size: 12px; color: #666;cursor: pointer;" @click="downloadP">下载</span>
             </div>
             <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
                 <el-container style="height: 100%">
@@ -154,6 +155,16 @@
 
         },
         methods: {
+            downloadP() {
+                this.$http.post('http://47.102.159.98/php/question-bank/problem-export-xml.php',qs.stringify({
+                    do: 'do',
+                    in: 1065
+                }),{
+                    headers: {
+                         'Accept':'text/html,application/xhtm +xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+                    }
+                })
+            },
             getId() {
                 this.problem_id = this.$route.query.problem_id
                 console.log(this.problem_id);

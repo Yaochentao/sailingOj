@@ -57,7 +57,7 @@
                     <div class="radar-con" v-show="this.user_id">
                         <img :src="photo" class="avatars" />
                         <span class="name">{{nick}}</span>
-                        <radar />
+                        <radar :ability = "this.ability"/>
                     </div>
                 </div>
                 <div class="slide-right"></div>
@@ -79,7 +79,8 @@
                 month: '',
                 day: '',
                 week: '',
-                dakaMsg: '点击打卡'
+                dakaMsg: '点击打卡',
+                ability: [0,0,0,0]
             }
         },
         created() {
@@ -90,24 +91,25 @@
 
 
 
-            this.$http.get('http://118.25.176.42/php/sailingoj/hot-problem.php')
+            this.$http.get('http://47.102.159.98/php/sailingoj/hot-problem.php')
                 .then((res) => {
 
                     this.hotProblems = res.data.data
                 })
-            this.$http.post('http://118.25.176.42/php/personal/power.php', qs.stringify({
-                    user_id: 'admin'
+            this.$http.post('http://47.102.159.98/php/personal/power.php', qs.stringify({
+                    user_id: this.user_id
                 }))
                 .then((res) => {
-                    console.log(res.data)
+                    this.ability = res.data.data.slice(0,4);
+                    console.log(this.ability)
                 })
-            this.$http.post('http://118.25.176.42/php/sailingoj/ranking-list-self.php', qs.stringify({
-                    user_id: 'admin'
+            this.$http.post('http://47.102.159.98/php/sailingoj/ranking-list-self.php', qs.stringify({
+                    user_id: this.user_id
                 }))
                 .then((res) => {
-                    this.myrank = res.data.data.rank
+                    this.myrank = res.data.data.rank;
                 })
-            this.$http.get('http://118.25.176.42/php/ranking-list/ranking-list.php')
+            this.$http.get('http://47.102.159.98/php/ranking-list/ranking-list.php')
                 .then((res) => {
                     this.rank = res.data.data
                 })
@@ -250,7 +252,7 @@
     }
 
     .slide-left {
-        width: 290px;
+        width: 310px;
         height: 100%;
         float: left;
     }

@@ -11,9 +11,12 @@
                         </el-table-column>
                         <el-table-column width='240' label="标签">
                             <template slot-scope="scope">
-                                <el-tag v-if='scope.row.label[0]' size="small" style="margin-right: 3px">{{scope.row.label[0]}}</el-tag>
-                                <el-tag v-if='scope.row.label[1]' size="small" type="success" style="margin-right: 3px">{{scope.row.label[1]}}</el-tag>
-                                <el-tag v-if='scope.row.label[2]' size="small" type="warning" style="margin-right: 3px">{{scope.row.label[2]}}</el-tag>
+                                <el-tag v-if='scope.row.label[0]' size="small" style="margin-right: 3px">
+                                    {{scope.row.label[0]}}</el-tag>
+                                <el-tag v-if='scope.row.label[1]' size="small" type="success" style="margin-right: 3px">
+                                    {{scope.row.label[1]}}</el-tag>
+                                <el-tag v-if='scope.row.label[2]' size="small" type="warning" style="margin-right: 3px">
+                                    {{scope.row.label[2]}}</el-tag>
                             </template>
                         </el-table-column>
                         <el-table-column sortable prop="ac" label="正确率">
@@ -22,9 +25,10 @@
                         </el-table-column>
                     </el-table>
                     <div class="pagination-con" style="float: right; margin: 10px 0 10px 0;">
-                        <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage" :page-size="10" @current-change="handleCurrentChange"
-                background layout="prev, pager, next" :total="this.totalPage*10">
-            </el-pagination>
+                        <el-pagination style="margin: 20px 0 20px 20px;float: right" :current-page="currentPage"
+                            :page-size="10" @current-change="handleCurrentChange" background layout="prev, pager, next"
+                            :total="this.totalPage*10">
+                        </el-pagination>
                     </div>
 
                 </div>
@@ -44,19 +48,23 @@
                 </div>
                 <div class="card" v-show="selectTags.length > 0">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">已选标签筛选项</h3>
-                    <el-tag @close="removeTag(item)" v-for="item in selectTags" type="info" v-bind:key="item.label_id" size="small" closable style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
+                    <el-tag @close="removeTag(item)" v-for="item in selectTags" type="info" v-bind:key="item.label_id"
+                        size="small" closable style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">基础算法</h3>
-                    <el-tag @click="selectTag(item)" v-for="item in tags.基础算法" v-bind:key="item.label_id" size="small" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
+                    <el-tag @click="selectTag(item)" v-for="item in tags.基础算法" v-bind:key="item.label_id" size="small"
+                        style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">排序</h3>
-                    <el-tag @click="selectTag(item)" v-for="item in tags.排序" v-bind:key="item.label_id" size="small" type="success" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
+                    <el-tag @click="selectTag(item)" v-for="item in tags.排序" v-bind:key="item.label_id" size="small"
+                        type="success" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
                 <div class="card">
                     <h3 class="card-title" style="font-size: 18px;color: #000;line-height: 30px">查找</h3>
-                    <el-tag @click="selectTag(item)" v-for="item in tags.查找" v-bind:key="item.label_id" size="small" type="warning" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
+                    <el-tag @click="selectTag(item)" v-for="item in tags.查找" v-bind:key="item.label_id" size="small"
+                        type="warning" style="margin-right: 5px;cursor: pointer;">{{item.content}}</el-tag>
                 </div>
             </div>
         </div>
@@ -71,6 +79,7 @@
                 currentPage: 1,
                 totalPage: '',
                 tags: [],
+                stringTag: '',
                 selectTags: [],
                 problems: [],
                 rankType: '1',
@@ -95,12 +104,12 @@
         methods: {
             getProblems(rankType) {
                 this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
-                    'rank.type': rankType
-                }))
-                .then((res) => {
-                    this.problems = res.data.data;
-                    this.totalPage = res.data.pages
-                })
+                        'rank.type': rankType
+                    }))
+                    .then((res) => {
+                        this.problems = res.data.data;
+                        this.totalPage = res.data.pages
+                    })
             },
             toProblemOj(row) {
                 console.log(row.problem_id)
@@ -112,34 +121,46 @@
                 })
             },
             changeProblem() {
-                if(this.rankType == 1) {
+                if (this.rankType == 1) {
                     this.getProblems('problem_id');
-                }else if(this.rankType == 2) {
+                } else if (this.rankType == 2) {
                     this.getProblems('submit');
-                }else if(this.rankType == 3) {
+                } else if (this.rankType == 3) {
                     this.getProblems('title');
-                }else if(this.rankType == 4) {
+                } else if (this.rankType == 4) {
                     this.getProblems('ac');
                 }
             },
             search() {
-                this.$http.post('http://47.102.159.98/php/question-bank/search.php',qs.stringify({
-                    string: this.searchValue
-                }))
-                .then((res) => {
-                    this.problems = res.data.data;
-                    this.totalPage = res.data.pages
-                })
+                this.$http.post('http://47.102.159.98/php/question-bank/search.php', qs.stringify({
+                        string: this.searchValue
+                    }))
+                    .then((res) => {
+                        this.problems = res.data.data;
+                        this.totalPage = res.data.pages
+                    })
             },
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
-                this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
-                    'rank.type': 'problem_id',
-                    page: val
-                }))
-                .then((res) => {
-                    this.problems = res.data.data;
-                })
+                if (this.stringTag.length > 0) {
+                    console.log('1')
+                    this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
+                            'rank.type': 'problem_id',
+                            page: val,
+                            label: this.stringTag
+                        }))
+                        .then((res) => {
+                            this.problems = res.data.data;
+                        })
+                } else {
+                    this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
+                            'rank.type': 'problem_id',
+                            page: val,
+                        }))
+                        .then((res) => {
+                            this.problems = res.data.data;
+                        })
+                }
             },
             selectTag(item) {
                 this.selectTags.push(item);
@@ -152,27 +173,28 @@
             },
             selectByTag(tags) {
                 this.$http.post('http://47.102.159.98/php/question-bank/question-bank-list.php', qs.stringify({
-                    'rank.type': this.rankType,
-                    label: tags
-                }))
-                .then((res) => {
-                    this.problems = res.data.data;
-                    this.totalPage = res.data.pages
-                })
+                        'rank.type': this.rankType,
+                        label: tags
+                    }))
+                    .then((res) => {
+                        this.problems = res.data.data;
+                        this.totalPage = res.data.pages
+                    })
             }
         },
         watch: {
             selectTags(newSelctTags) {
                 console.log(newSelctTags)
                 let string_1 = '';
-                for(let i = 0;i<newSelctTags.length;i++) {
-                    if(string_1.length > 0) {
+                for (let i = 0; i < newSelctTags.length; i++) {
+                    if (string_1.length > 0) {
                         string_1 = newSelctTags[i].label_id + ',' + string_1;
                     } else {
-                        string_1 = newSelctTags[i].label_id  + string_1;
+                        string_1 = newSelctTags[i].label_id + string_1;
                     }
                 }
-                console.log(string_1)
+                console.log(string_1);
+                this.stringTag = string_1;
 
                 this.selectByTag(string_1)
             }
