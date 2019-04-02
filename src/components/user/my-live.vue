@@ -26,7 +26,7 @@
                     <el-input type="textarea" v-model="liveDetail.description" :rows="3"></el-input>
                 </el-form-item>
                 <el-form-item label="直播封面">
-                    <input name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update"/>
+                    <input name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update" />
                 </el-form-item>
                 <el-form-item>
                     <el-button style="display: inline-block;float: right;margin-left: 10px" type="primary" size="small"
@@ -60,7 +60,9 @@
     export default {
         data() {
             return {
-                Hheader: {'Content-Type': 'application/x-www-form-urlencoded'},
+                Hheader: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
                 user_name: '',
                 password: '',
                 create_time: '',
@@ -95,19 +97,32 @@
             this.getLive();
         },
         methods: {
-            update(e){
-                let file = e.target.files[0];           
-                let param = new FormData(); //创建form对象
-                param.append('file',file,file.name);//通过append向form对象添加数据
-                param.append('id','817433040768901332');//添加form表单中其他数据
-                console.log(param.get('file')); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
-                let config = {
-                    headers:{'Content-Type':'multipart/form-data'}
-                };  //添加请求头
-                this.$http.post('http://47.102.159.98/php/live/updatephoto.php',param,config)
-                .then(response=>{
-                    console.log(response.data);
-                })        
+            update(e) {
+                let file = e.target.files[0];
+                console.log(file)
+                let reader = new FileReader(); //html5读文件
+                reader.readAsDataURL(file);
+                let that = this;
+                reader.onload = function (e) {
+                    let img64 = e.target.result;
+                    // console.log(img64);
+                    that.$http.post('http://47.102.159.98/php/live/updatephoto.php', qs.stringify({
+                            img: img64,
+                            id: that.liveDetail.id
+                        }))
+                        .then(response => {
+                            console.log(response.data);
+                        })
+                }
+                // let param = new FormData(); //创建form对象
+                // param.append('file',file,file.name);//通过append向form对象添加数据
+                // param.append('id','817433040768901332');//添加form表单中其他数据
+                // console.log(param.get('file')); //FormData私有类对象，访问不到，可以通过get判断值是否传进去
+                // let config = {
+                //     headers:{'Content-Type':'multipart/form-data'}
+                // };  //添加请求头
+
+
             },
             getLive() {
                 this.$http.post('http://47.102.159.98/php/live/getmylives.php', qs.stringify({
@@ -250,10 +265,10 @@
                 return `http://47.102.159.98/#/live?user_id=${this.liveDetail.user_id}&id=${this.liveDetail.id}`
             },
             resData() {
-                    return qs.stringify({
-                        id: 817433040768901332
-                    })
-                },
+                return qs.stringify({
+                    id: 817433040768901332
+                })
+            },
         },
         watch: {
             selectedLive(newSelectedLive) {
