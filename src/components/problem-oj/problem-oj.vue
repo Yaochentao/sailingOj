@@ -1,14 +1,22 @@
 <template>
     <div class="container">
+        <form style="display: none" action="http://47.102.159.98/php/question-bank/problem-export-xml.php" ref="form" method="post">
+            <input type="hidden" name="in" :value="problem_id">
+            <input type='hidden' name='do' value='do'>
+            <input type="submit" value="Download" ref="submit">
+        </form>
         <div class="problem-oj" :style="{height:(screenHeight-60)+'px'}">
             <div class="header">
                 <h2 class="problem-name">{{problem.problem_id}}.{{problem.title}}</h2>
                 <el-tag v-if='label[0]' size="small" style="margin-right: 10px">{{label[0]}}</el-tag>
                 <el-tag v-if='label[1]' size="small" type="success" style="margin-right: 10px">{{label[1]}}</el-tag>
                 <el-tag v-if='label[2]' size="small" type="warning" style="margin-right: 10px">{{label[2]}}</el-tag>
-                <span v-if="!ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="collection">收藏</span>
-                <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;" @click="unCollection">取消收藏</span>
-                <span style="font-size: 12px; color: #666;cursor: pointer;" @click="downloadP">下载</span>
+                <span v-if="!ifCollect" style="font-size: 12px; color: #666;cursor: pointer;"
+                    @click="collection">收藏</span>
+                <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;"
+                    @click="unCollection">取消收藏</span>
+                <!-- <span style="font-size: 12px; color: #666;cursor: pointer;" @click="downloadP">下载</span> -->
+                <el-button style="margin-left: 20px;float: right" size="mini" @click="downloadP">下载题目</el-button>
             </div>
             <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
                 <el-container style="height: 100%">
@@ -20,7 +28,9 @@
                         <div class="problem-detail">
                             <p class="problem-txt">{{problem.description}}</p>
                             <div class="example card" style="padding: 0">
-                                <h2 style="width: 100%;background: #dcdcdc;padding-left: 10px;font-size: 14px;line-height: 2">示例</h2>
+                                <h2
+                                    style="width: 100%;background: #dcdcdc;padding-left: 10px;font-size: 14px;line-height: 2">
+                                    示例</h2>
                                 <div style="padding: 10px;">
                                     <h3 style="color: #00a080;font-size: 15px;">标准输入</h3>
                                     <p class="card">{{problem.input}}</p>
@@ -41,7 +51,8 @@
                     <h3 style="margin-left:20px" class="title">编辑代码</h3>
                     <div class="block">
                         <el-select v-model="value" placeholder="请选择" size="mini" class="code-select">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                :value="item.value">
                             </el-option>
                         </el-select>
                     </div>
@@ -156,14 +167,16 @@
         },
         methods: {
             downloadP() {
-                this.$http.post('http://47.102.159.98/php/question-bank/problem-export-xml.php',qs.stringify({
-                    do: 'do',
-                    in: 1065
-                }),{
-                    headers: {
-                         'Accept':'text/html,application/xhtm +xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
-                    }
+                this.$http.post('http://47.102.159.98/php/personal/indent.php',qs.stringify({
+                    type: 2,
+                    problem_id: this.problem_id,
+                    user_id: this.user_id
+                }))
+                .then((res) => {
+                    console.log(res.data)
                 })
+                // let form = this.$refs.form;
+                // form.submit();
             },
             getId() {
                 this.problem_id = this.$route.query.problem_id

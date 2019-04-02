@@ -197,6 +197,7 @@
                             this.$http.post('http://47.102.159.98/php/live/updatelivestate.php', qs
                                 .stringify({
                                     id: this.liveDetail.id,
+                                    user_id: this.user_id,
                                     is_living: 1
                                 })).then((res) => {
                                 this.getLive();
@@ -232,6 +233,7 @@
                             this.$http.post('http://47.102.159.98/php/live/updatelivestate.php', qs
                                 .stringify({
                                     id: this.liveDetail.id,
+                                    user_id: this.user_id,
                                     is_living: 0
                                 })).then((res) => {
                                 this.getLive();
