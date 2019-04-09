@@ -90,7 +90,7 @@
       <div class="center-con" style="width: 960px; margin: 0 auto; position: relative;display: flex">
         <div class="footer-logo"><img src="./assets/img/f-logo.png" width="150" height="140"></div>
         <div class="qr">
-          <img src="./assets/img/qr.jpg" width="103" height="103">
+          <img src="./assets/img/qrcode.jpg" width="103" height="103">
           <p style="text-align: center; font-size: 19px;color: #2e9d81;font-weight: bold">关 注 我 们</p>
         </div>
         <div class="foot-text">

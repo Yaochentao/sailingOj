@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <form style="display: none" action="http://47.102.159.98/php/question-bank/problem-export-xml.php" ref="form" method="post">
+        <form style="display: none" action="http://47.102.159.98/php/question-bank/problem-export-xml.php" ref="form"
+            method="post">
             <input type="hidden" name="in" :value="problem_id">
             <input type='hidden' name='do' value='do'>
             <input type="submit" value="Download" ref="submit">
@@ -15,8 +16,7 @@
                     @click="collection">收藏</span>
                 <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;"
                     @click="unCollection">取消收藏</span>
-                <!-- <span style="font-size: 12px; color: #666;cursor: pointer;" @click="downloadP">下载</span> -->
-                <el-button style="margin-left: 20px;float: right" size="mini" @click="downloadP">下载题目</el-button>
+                <el-button style="margin-left: 20px;float: right" size="mini" @click="checkMoney">下载题目</el-button>
             </div>
             <div class="left-con" :style="{height:(screenHeight-220)+'px'}">
                 <el-container style="height: 100%">
@@ -166,17 +166,35 @@
 
         },
         methods: {
+            checkMoney() {
+                if (this.problem.money > 0) {
+                    this.$confirm(`下载该题目需${this.problem.money}平台币，是否继续？`, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.downloadP();
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消'
+                        });
+                    });
+                } else {
+                    this.downloadP();
+                }
+            },
             downloadP() {
-                this.$http.post('http://47.102.159.98/php/personal/indent.php',qs.stringify({
-                    type: 2,
-                    problem_id: this.problem_id,
-                    user_id: this.user_id
-                }))
-                .then((res) => {
-                    console.log(res.data)
-                })
-                // let form = this.$refs.form;
-                // form.submit();
+                // this.$http.post('http://47.102.159.98/php/personal/indent.php', qs.stringify({
+                //         type: 2,
+                //         problem_id: this.problem_id,
+                //         user_id: this.user_id
+                //     }))
+                //     .then((res) => {
+                //         console.log(res.data)
+                //     })
+                let form = this.$refs.form;
+                form.submit();
             },
             getId() {
                 this.problem_id = this.$route.query.problem_id

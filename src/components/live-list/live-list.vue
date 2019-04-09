@@ -14,7 +14,7 @@
             <el-row :gutter="12" style="margin-top: 20px;">
                 <el-col :span="8" v-for="(item,index) in liveList" :key="index">
                     <el-card :body-style="{ padding: '0px' }" shadow="hover" style="margin-bottom: 10px;position: relative">
-                        <img @click="toLive(item)" src="../../assets/img/live-img.jpg" style="display: block;width: 100%;cursor: pointer;">
+                        <img @click="toLive(item)" :src="'http://47.102.159.98'+item.img_url" style="display: block;width: 100%; height: 172px;cursor: pointer;">
                         <h4 @click="toLive(item)" class="live-title">{{item.live_name}}</h4>
                         <div class="live-title-con">
                             <span class="live-desc">{{item.description}}</span>

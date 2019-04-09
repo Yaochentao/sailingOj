@@ -26,6 +26,7 @@
                     <el-input type="textarea" v-model="liveDetail.description" :rows="3"></el-input>
                 </el-form-item>
                 <el-form-item label="直播封面">
+                    <img class="live-img" :src="liveImg">
                     <input name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update" />
                 </el-form-item>
                 <el-form-item>
@@ -269,6 +270,10 @@
                     id: 817433040768901332
                 })
             },
+            liveImg() {
+                return 'http://47.102.159.98' + this.liveDetail.img_url;
+                // return 'https://farm4.staticflickr.com/3931/15532327436_74c32632ac_k.jpg'
+            }
         },
         watch: {
             selectedLive(newSelectedLive) {
@@ -302,5 +307,10 @@
 
     .container {
         margin: 40px 10%;
+    }
+    .live-img {
+        width: 100px;
+        height: 60px;
+        margin-right: 20px;
     }
 </style>

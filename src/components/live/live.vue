@@ -137,7 +137,7 @@ import qs from 'qs';
                 id: this.$route.query.id
             }))
             .then((res) => {
-                this.liveDetail = res.data.data[0];
+                this.liveDetail = res.data.data;
             })
             this.getComment();
         },
