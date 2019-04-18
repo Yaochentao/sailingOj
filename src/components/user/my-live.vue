@@ -14,7 +14,7 @@
         <div class="container">
             <el-form label-position="right" label-width="80px" v-show="!this.create">
                 <el-form-item label="直播地址">
-                    <p>{{liveUrl}}</p>
+                    <p v-show="this.liveDetail.user_id">{{liveUrl}}</p>
                 </el-form-item>
                 <el-form-item label="房间标题">
                     <el-input v-model="liveDetail.live_name"></el-input>
@@ -26,7 +26,7 @@
                     <el-input type="textarea" v-model="liveDetail.description" :rows="3"></el-input>
                 </el-form-item>
                 <el-form-item label="直播封面">
-                    <img class="live-img" :src="liveImg">
+                    <img v-show="liveDetail.img_url" class="live-img" :src="liveImg">
                     <input name="file" type="file" accept="image/png,image/gif,image/jpeg" @change="update" />
                 </el-form-item>
                 <el-form-item>

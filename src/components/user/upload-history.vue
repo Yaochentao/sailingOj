@@ -34,7 +34,7 @@
         },
         created() {
             this.$http.post('http://47.102.159.98/php/personal/upload-problem-record.php',qs.stringify({
-                user_id: 'admin'
+                user_id: this.user_id
             }))
             .then((res) => {
                 console.log(res.data)
@@ -46,7 +46,7 @@
             handleCurrentChange(val) {
                 console.log(val);
                 this.$http.post('http://47.102.159.98/php/personal/upload-problem-record.php',qs.stringify({
-                user_id: 'admin',
+                user_id: this.user_id,
                 page: val
             }))
             .then((res) => {
@@ -54,6 +54,11 @@
                 this.uploadHistory = res.data.data;
             })
             }
+        },
+        computed: {
+            user_id() {
+                return this.$store.state.user_id;
+            },
         }
     }
 </script>

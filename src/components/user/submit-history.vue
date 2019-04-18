@@ -32,7 +32,7 @@
         },
         created() {
             this.$http.post('http://47.102.159.98/php/personal/problem-solved-record.php', qs.stringify({
-                    user_id: 'admin',
+                    user_id: this.user_id,
                 }))
                 .then((res) => {
                     this.submitHistory = res.data.data;
@@ -43,13 +43,18 @@
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
                 this.$http.post('http://47.102.159.98/php/personal/problem-solved-record.php', qs.stringify({
-                    user_id: 'admin',
+                    user_id: this.user_id,
                     page: val
                 }))
                 .then((res) => {
                     this.submitHistory = res.data.data;
                 })
             }
+        },
+        computed: {
+            user_id() {
+                return this.$store.state.user_id;
+            },
         }
     }
 </script>

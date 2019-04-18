@@ -54,7 +54,6 @@ import qs from 'qs';
         },
         methods: {
             toLive(item) {
-
                 this.$router.push({
                     path: '/live',
                     query: {

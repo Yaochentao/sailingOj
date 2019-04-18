@@ -3,16 +3,13 @@
         <div class="container">
             <div class="banner">
                 <el-carousel indicator-position="outside" height="324px">
-                    <el-carousel-item v-for="item in 4" :key="item">
-                        <h3>{{ item }}</h3>
+                    <el-carousel-item v-for="item in liveList" :key="item.id">
+                        <img @click="toLive(item)" style="width: 100%;height: 100%;cursor: pointer;" :src="'http://47.102.159.98'+item.img_url" alt="">
                     </el-carousel-item>
                 </el-carousel>
                 <div class="banner-contents">
                     <h3 class="banner-title">直播热度排行</h3>
-                    <li class="banner-item">1.每天15分钟，21天带你写出一手漂亮好字</li>
-                    <li class="banner-item">2.锤子科技/快如科技/快如科技2019.01.15发布会</li>
-                    <li class="banner-item">1.每天15分钟，21天带你写出一手漂亮好字</li>
-                    <li class="banner-item">2.锤子科技/快如科技/快如科技2019.01.15发布会</li>
+                    <li @click="toLive(item)" v-for="item in liveList" :key="item.id" class="banner-item">{{item.live_name}}</li>
                 </div>
                 <div class="banner-contents-swiper"></div>
             </div>
@@ -29,7 +26,7 @@
 
             <div class="slide-con">
                 <div class="slide-left">
-                    <div class="data-con" style="padding: 10px;">
+                    <!-- <div class="data-con" style="padding: 10px;">
                         <div style="display: flex; width: 100%">
                             <div style="width: 180px">
                                 <h3 style="font-size: 26px; color: #2e9d81">Hi , <i style="font-size: 18px; color: #cdd1cc">{{nick}}</i></h3>
@@ -48,7 +45,7 @@
                             <p class="saying">时间是一切财富中最宝贵的财富</p>
                             <p class="celebrity">———— 德奥弗拉斯多</p>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="rank-con">
                         <h3 class="title">积分排行榜</h3>
                         <li v-for="item in rank" :key="item.rowno" class="rank-item">{{item.rowno}}.{{item.nick}}</li>
@@ -80,7 +77,8 @@
                 day: '',
                 week: '',
                 dakaMsg: '点击打卡',
-                ability: [0,0,0,0]
+                ability: [0,0,0,0],
+                liveList: [],
             }
         },
         created() {
@@ -88,7 +86,7 @@
             this.month = data.getMonth() + 1;
             this.day = data.getDate();
             this.week = data.getDay();
-
+            this.getLiveList();
 
 
             this.$http.get('http://47.102.159.98/php/sailingoj/hot-problem.php')
@@ -115,6 +113,15 @@
                 })
         },
         methods: {
+            toLive(item) {
+                this.$router.push({
+                    path: '/live',
+                    query: {
+                        user_id: item.user_id,
+                        id: item.id
+                    }
+                })
+            },
             toProblemOj(problem_id) {
                 console.log(problem_id)
                 this.$router.push({
@@ -122,6 +129,13 @@
                     query: {
                         problem_id: problem_id
                     }
+                })
+            },
+            getLiveList() {
+                this.$http.get('http://47.102.159.98/php/live/getlive-list.php')
+                .then((res) => {
+                    console.log(typeof(res.data))
+                    this.liveList = res.data.data.slice(0,3);
                 })
             },
             daka() {
@@ -196,8 +210,10 @@
 
     .banner-item {
         width: 90%;
-        font-size: 13px;
+        font-size: 14px;
         color: #fff;
+        cursor: pointer;
+        margin-bottom: 10px
     }
 
     .title {

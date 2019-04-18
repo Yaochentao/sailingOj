@@ -51,7 +51,7 @@
         data() {
             return {
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
-                code: '1',
+                code: '',
                 identifyCodes: "1234567890",
                 identifyCode: "", //图片验证码
                 ruleForm: {
@@ -114,11 +114,20 @@
             },
             getVcode() {
                 console.log('code')
+                this.$message('验证码已发送');
                 this.$http.post('http://47.102.159.98/php/login/check-vcode.php', qs.stringify({
-                        user_id: 13372416908
+                        user_id: this.ruleForm.id
                     }))
                     .then((res) => {
-                        this.code = res.data.vcode
+                        // console.log(res);
+                        // console.log(res.data.vcode);
+                        // console.log(res.data.length);
+                        // console.log(res.data.slice(19,23));
+                        this.code = res.data.slice(19,23);
+                        // console.log(this.code);
+                        // console.log(this.code.vcode);
+                        // this.code = res.data.vcode;
+                        // console.log(this.code)
                     })
             },
             register() {
@@ -126,23 +135,26 @@
                 if (this.ruleForm.password1 === this.ruleForm.password2) {
                     console.log('xiangtong')
                     if (this.ruleForm.code == this.code) {
-                        this.$http.post('http://118.25.176.42/php/login/register.php', qs.stringify({
-                            user_id: 12345678912,
-                            password: 123456
+                        this.$http.post('http://47.102.159.98/php/login/register.php', qs.stringify({
+                            user_id: this.ruleForm.id,
+                            password: this.ruleForm.password1
                         }))
+                        .then((res) => {
+                            if(res.data.code == 1) {
+                                this.$message('注册成功');
+                                this.$router.push('/sign-up')
+                            } else if(res.data.code == 2) {
+                                this.$message('该手机号已注册');
+                            } else {
+                                this.$message('操作失败');
+                            }
+                        })
                     } else {
                         this.$message('验证码错误');
                     }
                 } else {
                     this.$message('两次密码输入不同');
                 }
-
-                // this.$http.post('http://118.25.176.42/php/login/register.php', qs.stringify({
-                //             user_id: 12445678912,
-                //             password: 123456
-                //         }))
-
-
             }
         },
         components: {
