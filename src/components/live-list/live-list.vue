@@ -101,6 +101,11 @@ import qs from 'qs';
     .live-title {
         padding-left: 5%;
         cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
     }
 
     .live-title-con {

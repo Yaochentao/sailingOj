@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <div class="rank" :style="{height:(screenHeight-60)+'px'}">
+            <h1 class="title">排行榜</h1>
         <!-- <div class="search">
             <el-input placeholder="搜索题目">
                 <el-button slot="append" icon="el-icon-search"></el-button>
@@ -12,9 +13,9 @@
                 </el-table-column>
                 <el-table-column prop="nick" label="昵称" width="180">
                 </el-table-column>
-                <el-table-column prop="point" label="通过数量">
+                <el-table-column prop="point" label="积分">
                 </el-table-column>
-                <el-table-column prop="solved" label="积分">
+                <el-table-column prop="solved" label="通过数量">
                 </el-table-column>
             </el-table>
             <div class="pagination-con" style="float: right; margin: 10px 10% 10px 0;">
@@ -78,6 +79,13 @@
     .rank {
         position: relative;
         padding: 20px;
+        
+    }
+    .title {
+        padding-bottom: 10px;
+        font-size: 28px;
+        color: #000;
+        border-bottom: 2px solid #41af94;
     }
 
     .search {

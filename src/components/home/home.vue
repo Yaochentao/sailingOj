@@ -91,7 +91,6 @@
 
             this.$http.get('http://47.102.159.98/php/sailingoj/hot-problem.php')
                 .then((res) => {
-
                     this.hotProblems = res.data.data
                 })
             this.$http.post('http://47.102.159.98/php/personal/power.php', qs.stringify({
@@ -170,7 +169,7 @@
 
 <style scoped>
     .container {
-        width: 960px;
+        width: 1100px;
         margin: 0 auto;
         background: #efefef;
         overflow: hidden;
@@ -225,7 +224,7 @@
     .problem-item {
         margin-top: 10px;
         padding: 10px;
-        width: 502px;
+        width: 560px;
         height: 82px;
         background: #fff;
         border-radius: 8px;
@@ -366,7 +365,7 @@
         margin-top: 10px;
         line-height: 76px;
         vertical-align: top;
-        color: #dbddda;
+        color: #000;
         font-size: 19px;
         height: 76px;
         display: inline-block;

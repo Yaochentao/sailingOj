@@ -4,7 +4,7 @@
             <div class="live-header">
                 <h3 class="title">{{liveDetail.live_name}}</h3>
                 <div class="teacher-con">
-                    <img :src="this.photo" class="avatar"/>
+                    <img :src="this.photo" class="avatar" />
                     <span src class="teacher-name">{{liveDetail.nick}}<br>{{liveDetail.description}}</span>
                 </div>
                 <!-- <div class="teacher-con">
@@ -13,24 +13,28 @@
             </div>
             <div class="flex-con" style="display: flex">
                 <div class="player">
-                    <video-player autoplay class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true" :options="playerOptions"
-                        @play="onPlayerPlay($event)" @pause="onPlayerPause($event)">
+                    <video-player autoplay class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true"
+                        :options="playerOptions" @play="onPlayerPlay($event)" @pause="onPlayerPause($event)">
                     </video-player>
                 </div>
                 <div class="comment-con">
                     <el-scrollbar style="height:100%">
                         <div class="comment">
-                            <li v-for="(item,index) in comments" :key="index" style="line-height: 30px;"><span style="color: #AFDEFF">{{item.nick}}：</span>
-                            <span style="">{{item.content}}</span>
-                            <span style="font-size: 10px;margin-left: 10px;">{{item.in_date}}</span>
+                            <li v-for="(item,index) in comments" :key="index" style="line-height: 30px;"><span
+                                    style="color: #AFDEFF">{{item.nick}}：</span>
+                                <span style="">{{item.content}}</span>
+                                <span style="font-size: 10px;margin-left: 10px;">{{item.in_date}}</span>
                             </li>
                         </div>
                     </el-scrollbar>
+                    <el-input v-model="input" placeholder="请输入内容" style="width: 96%;margin-left: 2%;position: relative;bottom: 35px;">
+                        <template slot="append">
+                            <el-button type="primary" @click="pushComment">发送</el-button>
+                        </template>
+                    </el-input>
                 </div>
             </div>
-            <el-input v-model="input" placeholder="请输入内容" style="width: 80%;margin-left: 10%;">
-                <template slot="append"><el-button type="primary" @click="pushComment">发送</el-button></template>    
-            </el-input> 
+
             <!-- <div class="live-list-con">
                 <h3 style="font-weight:bold;line-height: 2;">相关直播推荐</h3>
                 <el-row :gutter="12">
@@ -75,7 +79,7 @@
     </div>
 </template>
 <script>
-import qs from 'qs';
+    import qs from 'qs';
     require('video.js/dist/video-js.css')
     require('vue-video-player/src/custom-theme.css')
     import 'videojs-contrib-hls'
@@ -86,7 +90,7 @@ import qs from 'qs';
         data() {
             return {
                 liveDetail: {},
-                comments:[],
+                comments: [],
                 input: '',
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
                 playerOptions: {
@@ -134,11 +138,11 @@ import qs from 'qs';
         },
         created() {
             this.$http.post('http://47.102.159.98/php/live/getlive.php', qs.stringify({
-                id: this.$route.query.id
-            }))
-            .then((res) => {
-                this.liveDetail = res.data.data;
-            })
+                    id: this.$route.query.id
+                }))
+                .then((res) => {
+                    this.liveDetail = res.data.data;
+                })
             this.getComment();
         },
         methods: {
@@ -148,26 +152,26 @@ import qs from 'qs';
             onPlayerPause(player) {
                 console.log("pause");
             },
-            pushComment() {  //发送弹幕
-                this.$http.post('http://47.102.159.98/php/live/barrage.php',qs.stringify({
-                    id: this.$route.query.id,
-                    user_id: this.user_id,
-                    content: this.input
-                }))
-                .then((res) => {
-                    console.log(res.data)
-                    this.input = '';
-                    this.getComment();
-                })
+            pushComment() { //发送弹幕
+                this.$http.post('http://47.102.159.98/php/live/barrage.php', qs.stringify({
+                        id: this.$route.query.id,
+                        user_id: this.user_id,
+                        content: this.input
+                    }))
+                    .then((res) => {
+                        console.log(res.data)
+                        this.input = '';
+                        this.getComment();
+                    })
             },
             getComment() {
-                this.$http.post('http://47.102.159.98/php/live/barrage-show.php',qs.stringify({
-                    id: this.$route.query.id
-                }))
-                .then((res) => {
-                    this.comments = res.data.data
-                    console.log(this.comments)
-                })
+                this.$http.post('http://47.102.159.98/php/live/barrage-show.php', qs.stringify({
+                        id: this.$route.query.id
+                    }))
+                    .then((res) => {
+                        this.comments = res.data.data
+                        console.log(this.comments)
+                    })
             }
         },
         computed: {
@@ -178,7 +182,7 @@ import qs from 'qs';
                 return this.$store.state.user_id
             },
             photo() {
-                return 'http://47.102.159.98/php/photo/' + this.liveDetail.photo +'.jpg';
+                return 'http://47.102.159.98/php/photo/' + this.liveDetail.photo + '.jpg';
             }
         },
         components: {

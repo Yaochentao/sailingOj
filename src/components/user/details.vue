@@ -13,7 +13,7 @@
                 </el-input>
             </div>
             <div class="input-con">
-                <span class="input-label">手机</span>
+                <span class="input-label">账号</span>
                 <span>{{user.user_id}}</span>
 
             </div>
@@ -90,12 +90,8 @@ import qs from 'qs'
             }
         },
         created() {
-            this.$http.post('http://47.102.159.98/php/personal/password-modify.php',qs.stringify({
-                user_id: this.user_id
-            }))
-            .then((res) => {
-                this.user = res.data.data[0];
-            })
+            
+            this.getInfo();
         },
         computed: {
             user_id() {
@@ -118,6 +114,15 @@ import qs from 'qs'
             edit() {
                 this.notdit = false;
             },
+            getInfo() {
+                this.$http.post('http://47.102.159.98/php/login/getinfo.php', qs.stringify({
+                        user_id: this.user_id,
+                    }))
+                    .then((res) => {
+                        this.user = res.data.data;
+                        this.$store.commit('upNick',res.data.data.nick);
+                    })
+            },
             updata() {
                 this.notdit = true;
                 this.$http.post('http://47.102.159.98/php/personal/Personal-modify.php',qs.stringify({
@@ -127,7 +132,8 @@ import qs from 'qs'
                     email: this.user.email
                 }))
                 .then((res) => {
-                    console.log(res.data)
+                    console.log(res.data);
+                    this.getInfo();
                 })
             },
             charge() {

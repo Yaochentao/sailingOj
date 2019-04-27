@@ -245,7 +245,9 @@
             },
             getRes() {
                 this.$http.post('http://47.102.159.98/php/problem/problem-source-result.php', qs.stringify({
-                        solution_id: this.solution_id
+                        solution_id: this.solution_id,
+                        problem_id: this.problem_id,
+                        user_id: this.user_id
                     }))
                     .then((res) => {
                         console.log(res.data);

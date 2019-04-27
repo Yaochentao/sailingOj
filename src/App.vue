@@ -2,7 +2,7 @@
   <div id="app">
 
     <el-container>
-      <el-header class="header" style="background: #2e302f; color: #2e7965;z-index: 1001;">
+      <el-header class="header" style="background: #2e302f; color: #fff;z-index: 1001;">
         <el-row>
           <el-col :span="4">
             <img src="./assets/img/h-logo.png" height="60" width="100" style="cursor: pointer;display:block;width:100px;margin: 0 auto;"

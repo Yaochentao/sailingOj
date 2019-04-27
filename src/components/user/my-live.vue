@@ -7,7 +7,7 @@
             <el-button style="display: inline-block;float: right" type="primary" size="small" v-if="create"
                 @click="hideCreate">取消</el-button>
         </div>
-        <el-select v-model="selectedLive" placeholder="请选择" style="float: right; margin-right: 80px">
+        <el-select v-model="selectedLive" placeholder="请选择" style="float: right; margin-right: 80px" v-show="!this.create">
             <el-option v-for="item in lives" :key="item.id" :label="item.live_name" :value="item.id">
             </el-option>
         </el-select>
@@ -174,7 +174,9 @@
                     user_id: this.user_id,
                     live_name: this.newLive.live_name,
                     description: this.newLive.description,
-                }))
+                })).then((res) => {
+                    this.$message('申请已提交，等待管理员审核');
+                })
             },
             changeLive() { //更新直播信息
                 this.$http.post('http://47.102.159.98/php/live/updatelive.php', qs.stringify({

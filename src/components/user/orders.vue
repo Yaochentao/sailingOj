@@ -8,9 +8,9 @@
             <el-table :data="orders" style="width: 100%">
                 <el-table-column prop="in_date" label="日期" width="180">
                 </el-table-column>
-                <el-table-column prop="type" label="操作类型" width="100">
+                <el-table-column prop="type" label="操作类型">
                 </el-table-column>
-                <el-table-column prop="alipay" label="账号">
+                <el-table-column prop="amount" label="操作金额">
                 </el-table-column>
                 <el-table-column prop="state" label="订单状态" width="100">
                 </el-table-column>
@@ -43,6 +43,8 @@
                             orders[i].type = '充值'
                         } else if (orders[i].type == 1) {
                             orders[i].type = '提现'
+                        } else if (orders[i].type == 2) {
+                            orders[i].type = '下载题目'
                         }
                         if (orders[i].state == 0) {
                             orders[i].state = '待处理'
@@ -65,7 +67,25 @@
                     }))
                     .then((res) => {
                         console.log(res.data);
-                        this.orders = res.data.data;
+                        let orders = res.data.data;
+                        for (let i = 0; i < res.data.data.length; i++) {
+                            if (orders[i].type == 0) {
+                                orders[i].type = '充值'
+                            } else if (orders[i].type == 1) {
+                                orders[i].type = '提现'
+                            } else if (orders[i].type == 2) {
+                                orders[i].type = '下载题目'
+                            }
+                            console.log('1')
+                            if (orders[i].state == 0) {
+                                orders[i].state = '待处理'
+                            } else if (orders[i].state == 1) {
+                                orders[i].state = '已处理'
+                            } else if (orders[i].state == 2) {
+                                orders[i].state = '未通过'
+                            }
+                        }
+                        this.orders = orders;
                     })
             },
             pass(row) {
