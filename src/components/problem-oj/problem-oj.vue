@@ -185,16 +185,20 @@
                 }
             },
             downloadP() {
-                // this.$http.post('http://47.102.159.98/php/personal/indent.php', qs.stringify({
-                //         type: 2,
-                //         problem_id: this.problem_id,
-                //         user_id: this.user_id
-                //     }))
-                //     .then((res) => {
-                //         console.log(res.data)
-                //     })
-                let form = this.$refs.form;
-                form.submit();
+                this.$http.post('http://47.102.159.98/php/personal/indent.php', qs.stringify({
+                        type: 2,
+                        problem_id: this.problem_id,
+                        user_id: this.user_id
+                    }))
+                    .then((res) => {
+                        if(res.data.code == 0) {
+                            this.$message('余额不足');
+                        } else {
+                            let form = this.$refs.form;
+                            form.submit();
+                        }
+                    })
+                
             },
             getId() {
                 this.problem_id = this.$route.query.problem_id

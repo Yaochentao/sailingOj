@@ -39,7 +39,7 @@
             <div><span class="nav-text" v-on:click="toRank">排行榜</span></div>
           </el-col>
           <el-col :span="4">
-            <div><span class="nav-text">论坛</span></div>
+            <a href="http://118.25.176.42/index.php"><span class="nav-text">论坛</span></a>
           </el-col>
           <el-col :span="4">
             <div class="sign-btn">
@@ -60,7 +60,7 @@
                     <div class="nav-item" @click="toSubmitHistory">做题记录</div>
                     <div class="nav-item" @click="toUpload">贡献题目</div>
                     <div class="nav-item" @click="toCollection">我的收藏</div>
-                    <div class="nav-item" @click="toAdmin">管理</div>
+                    <div class="nav-item" @click="toAdmin" v-if="this.user_id == 'admin'">管理</div>
                     <div class="nav-item" @click="logout">注销</div>
                   </div>
                 </div>
@@ -266,6 +266,7 @@
     text-align: center;
     font-size: 20px;
     cursor: pointer;
+    color: #fff;
   }
 
   .nav-item {
