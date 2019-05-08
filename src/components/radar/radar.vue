@@ -30,7 +30,7 @@
                     radar: {
                         // shape: 'circle',
                         indicator: [{
-                                name: 'ac',
+                                name: '通过率',
                                 max: 100
                             },
                             {

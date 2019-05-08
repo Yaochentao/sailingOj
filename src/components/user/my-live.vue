@@ -283,6 +283,12 @@
                     return item.id == newSelectedLive;
                 });
                 this.liveDetail = this.lives[index];
+            },
+            user_id(newUser_id) {
+                console.log('111')
+                if(!newUser_id) {
+                    this.$router.push('/home')
+                }
             }
         },
         components: {}

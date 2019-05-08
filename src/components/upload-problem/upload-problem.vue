@@ -85,7 +85,8 @@
         },
         methods: {
             upload() {
-                this.$http.post('http://47.102.159.98/php/question-bank/problem-add.php', qs.stringify({
+                if(this.user_id) {
+                    this.$http.post('http://47.102.159.98/php/question-bank/problem-add.php', qs.stringify({
                         user_id: this.user_id,
                         title: this.title,
                         time_limit: '2',
@@ -109,6 +110,13 @@
                             });
                         }
                     })
+                } else {
+                    this.$message({
+                        type: 'info',
+                        message: '请登录再进行操作'
+                    });
+                }
+                
             }
         },
         computed: {

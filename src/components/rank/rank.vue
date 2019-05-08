@@ -9,9 +9,11 @@
         </div> -->
         <div class="table-con" style="margin: 20px 0 20px 0">
             <el-table :data="rank" stripe style="width: 80%; margin: auto">
-                <el-table-column prop="rowno" label="序号" width="180">
+                <el-table-column prop="rowno" label="排名">
                 </el-table-column>
                 <el-table-column prop="nick" label="昵称" width="180">
+                </el-table-column>
+                <el-table-column prop="user_id" label="账号" width="180">
                 </el-table-column>
                 <el-table-column prop="point" label="积分">
                 </el-table-column>
@@ -30,6 +32,7 @@
     </div>
 </template>
 <script>
+import qs from 'qs'
     export default {
         data() {
             return {
@@ -51,7 +54,8 @@
              this.$http.get('http://47.102.159.98/php/ranking-list/ranking-list.php')
              .then((res) => {
                  console.log(res.data)
-                 this.rank = res.data.data
+                 this.rank = res.data.data;
+                 this.totalPage = res.data.pages;
              })
          },
          methods: {

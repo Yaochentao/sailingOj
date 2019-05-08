@@ -48,7 +48,7 @@
                     </div> -->
                     <div class="rank-con">
                         <h3 class="title">积分排行榜</h3>
-                        <li v-for="item in rank" :key="item.rowno" class="rank-item">{{item.rowno}}.{{item.nick}}</li>
+                        <li v-for="item in rank" :key="item.rowno" class="rank-item">{{item.rowno}}. {{item.nick}}</li>
                         <p v-show="this.user_id" class="my-rank">我的排名： {{myrank}}</p>
                     </div>
                     <div class="radar-con" v-show="this.user_id">

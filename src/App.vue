@@ -16,7 +16,7 @@
                   <div class="transition-box">
                     <div class="nav-item" @click="toProblemList">题目列表</div>
                     <div class="nav-item" @click="toUpload">上传题目</div>
-                    <div class="nav-item" @click="toSubmitHistory">提交记录</div>
+                    <!-- <div class="nav-item" @click="toSubmitHistory">提交记录</div> -->
                   </div>
                 </div>
               </el-collapse-transition>
@@ -24,7 +24,7 @@
           </el-col>
           <el-col :span="4">
             <div @mouseover="show1 = true" @mouseout="show1 = false">
-              <span class="nav-text" @click="toLiveList">直播</span>
+              <span class="nav-text" @click="toLiveList">在线辅导</span>
               <!-- <el-collapse-transition>
                 <div v-show="show1">
                   <div class="transition-box">
@@ -94,8 +94,7 @@
           <p style="text-align: center; font-size: 19px;color: #2e9d81;font-weight: bold">关 注 我 们</p>
         </div>
         <div class="foot-text">
-          <a href="#">帮助中心</a>
-          <a href="#">获取源代码</a>
+          <a href="https://github.com/Yaochentao/sailingOj">获取源代码</a>
         </div>
       </div>
     </footer>

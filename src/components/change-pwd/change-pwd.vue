@@ -10,16 +10,16 @@
                     <p class="forget-btn">我想起来了，去登陆></p>
                 </router-link>
             </div>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px"
+            <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="80px"
                 style="margin-left: 34px;">
                 <el-form-item class="form-item" label='验证手机' prop="id">
                     <el-input style="width: 70%;" v-model="ruleForm.id"></el-input>
                 </el-form-item>
                 <el-form-item class="form-item" label="重置密码" prop="password">
-                    <el-input style="width: 70%;" v-model="ruleForm.password1"></el-input>
+                    <el-input style="width: 70%;" v-model="ruleForm.password1" type="password"></el-input>
                 </el-form-item>
                 <el-form-item class="form-item" label="确认密码" prop="password">
-                    <el-input style="width: 70%;" v-model="ruleForm.password2"></el-input>
+                    <el-input style="width: 70%;" v-model="ruleForm.password2" type="password"></el-input>
                 </el-form-item>
                 <!-- <el-form-item class="form-item" label="验证码" prop="password">
                     <el-input style="width: 30%; display: inline-block;vertical-align: top;" v-model="ruleForm.password"></el-input>

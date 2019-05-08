@@ -98,6 +98,14 @@ import qs from 'qs'
                 return this.$store.state.user_id;
             },
         },
+        watch: {
+            user_id(newUser_id) {
+                console.log('111')
+                if(!newUser_id) {
+                    this.$router.push('/home')
+                }
+            }
+        },
         methods: {
             chargeOpen() {
                 this.chargeShow = true;

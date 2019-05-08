@@ -12,9 +12,9 @@
                 <el-tag v-if='label[0]' size="small" style="margin-right: 10px">{{label[0]}}</el-tag>
                 <el-tag v-if='label[1]' size="small" type="success" style="margin-right: 10px">{{label[1]}}</el-tag>
                 <el-tag v-if='label[2]' size="small" type="warning" style="margin-right: 10px">{{label[2]}}</el-tag>
-                <span v-if="!ifCollect" style="font-size: 12px; color: #666;cursor: pointer;"
+                <span v-if="!ifCollect && this.user_id" style="font-size: 12px; color: #666;cursor: pointer;"
                     @click="collection">收藏</span>
-                <span v-if="ifCollect" style="font-size: 12px; color: #666;cursor: pointer;"
+                <span v-if="ifCollect && this.user_id" style="font-size: 12px; color: #666;cursor: pointer;"
                     @click="unCollection">取消收藏</span>
                 <el-button style="margin-left: 20px;float: right" size="mini" @click="checkMoney">下载题目</el-button>
             </div>
@@ -99,22 +99,22 @@
                 editor: {},
                 ifCollect: false,
                 options: [{
-                    value: '选项1',
+                    value: '0',
                     label: 'c'
                 }, {
-                    value: '选项2',
+                    value: '1',
                     label: 'c++'
                 }, {
-                    value: '选项3',
+                    value: '3',
                     label: 'java'
                 }, {
-                    value: '选项4',
+                    value: '6',
                     label: 'python'
                 }, {
-                    value: '选项5',
-                    label: '.net'
+                    value: '2',
+                    label: 'pascal'
                 }],
-                value: '选项1',
+                value: '0',
                 screenHeight: document.documentElement.clientHeight // 屏幕高度
             }
         },
@@ -224,7 +224,7 @@
                             user_id: this.user_id,
                             problem_id: this.problem_id,
                             source_code: code,
-                            language: '0'
+                            language: this.value
                         }))
                         .then((res) => {
                             console.log(res.data)

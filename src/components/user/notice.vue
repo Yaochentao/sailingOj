@@ -2,7 +2,6 @@
     <div class="notice">
         <div class="details-header">
             <h3 class="details-title">公告</h3>
-            <el-button size='mini' type="primary" style="float: right;margin: 4px 10px 0 0" @click="cardShow = true">+发布</el-button>
         </div>
         <div class="notice-list">
             <div class="notice-card" v-for="item in notices" :key="item.index">
@@ -55,7 +54,15 @@ import qs from 'qs'
                     this.content.length
                 )
             }
-        }
+        },
+        watch: {
+            user_id(newUser_id) {
+                console.log('111')
+                if(!newUser_id) {
+                    this.$router.push('/home')
+                }
+            }
+        },
     }
 </script>
 <style scoped>

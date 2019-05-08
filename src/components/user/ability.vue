@@ -7,7 +7,7 @@
             <img :src="this.photo" class="avatars" />
             <span class="name">失格丶</span>
             <div class="ablity-num">
-                <li style="font-size: 18px;">AC： <span style="font-size: 15px; color: #acadad;">{{ability[0]}}%</span></li>
+                <li style="font-size: 18px;">通过率： <span style="font-size: 15px; color: #acadad;">{{ability[0]}}%</span></li>
                 <li style="font-size: 18px;">基础算法： <span style="font-size: 15px; color: #acadad;">{{ability[1]}}%</span></li>
                 
                 <li style="font-size: 18px;">排序： <span style="font-size: 15px; color: #acadad;">{{ability[2]}}%</span></li>
@@ -48,6 +48,14 @@
             user_id() {
                 return this.$store.state.user_id;
             },
+        },
+        watch: {
+            user_id(newUser_id) {
+                console.log('111')
+                if(!newUser_id) {
+                    this.$router.push('/home')
+                }
+            }
         },
         components: {
             Radar

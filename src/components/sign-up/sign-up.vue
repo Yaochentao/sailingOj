@@ -8,12 +8,12 @@
                 </div>
                 <p class="forget-btn" @click="toChangePwd">忘记密码，去找回></p>
             </div>
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="80px" style="margin-left: 34px;">
+            <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="80px" style="margin-left: 34px;">
                 <el-form-item class="form-item" label='账号' prop="id">
                     <el-input style="width: 70%;" v-model="ruleForm.id"></el-input>
                 </el-form-item>
                 <el-form-item class="form-item" label="密码" prop="password">
-                    <el-input style="width: 70%;" v-model="ruleForm.password"></el-input>
+                    <el-input style="width: 70%;" v-model="ruleForm.password" placeholder="请输入密码" type="password"></el-input>
                 </el-form-item>
                 <el-form-item class="form-item" label="验证码" prop="code">
                     <el-input style="width: 30%; display: inline-block;vertical-align: top;" v-model="ruleForm.identifyCode"></el-input>
@@ -40,7 +40,9 @@
     import qs from 'qs'
     export default {
         data() {
+            
             return {
+                input: '',
                 screenHeight: document.documentElement.clientHeight, // 屏幕高度
 
                 identifyCodes: "1234567890",

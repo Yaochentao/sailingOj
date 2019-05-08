@@ -49,6 +49,19 @@
                 _this.screenHeight = document.documentElement.clientHeight // 窗口高度
             };
         },
+        watch: {
+            user_id(newUser_id) {
+                console.log('111')
+                if(!newUser_id) {
+                    this.$router.push('/home')
+                }
+            }
+        },
+        computed: {
+            user_id() {
+                return this.$store.state.user_id;
+            },
+        },
         methods: {
             toUserM() {
                 this.$router.push('/admin/user-manage')
