@@ -176,6 +176,7 @@
                     description: this.newLive.description,
                 })).then((res) => {
                     this.$message('申请已提交，等待管理员审核');
+                    this.$router.push('/user/my-live');
                 })
             },
             changeLive() { //更新直播信息

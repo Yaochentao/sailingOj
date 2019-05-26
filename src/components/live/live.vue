@@ -111,7 +111,7 @@
                         withCredentials: false,
                         type: 'application/x-mpegURL',
                         src: 'https://1.mms.vlog.xuite.net/hls/ftvtv/index.m3u8'
-                        // src: 'http://hls.facebac.com/live/22cdf607ab95c3fd2f2e/playlist.m3u8?token=ab0b79ea551404bb69a6&secret=07172e29373d5484_cfd2f3d6'
+                        // src: this.liveDetail.m3u8_url
                     }],
                     // poster: "../../assets/img/live-img1.jpg", //你的封面地址
                     width: document.documentElement.clientWidth,
@@ -142,6 +142,7 @@
                 }))
                 .then((res) => {
                     this.liveDetail = res.data.data;
+                    this.playerOptions.sources[0].src = this.liveDetail.m3u8_url;
                 })
             this.getComment();
         },

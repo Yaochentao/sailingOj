@@ -89,7 +89,9 @@
                     home_id: row.home_id,
                     user_id: this.user_id,
                     defunct: 1
-                }))
+                })).then(res=>{
+                    this.getLiveList();
+                })
             },
             getLiveList() {
                 this.$http.post('http://47.102.159.98/php/live/check-defunct.php')

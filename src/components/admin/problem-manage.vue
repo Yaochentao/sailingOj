@@ -13,7 +13,7 @@
                         </el-table-column>
                         <el-table-column prop="title" label="题目名称">
                         </el-table-column>
-                        <el-table-column prop="user_id" label="上传者">
+                        <el-table-column prop="nick" label="上传者">
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
@@ -48,7 +48,8 @@
         methods: {
             getProblemList() {
                 this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
-                    type: 'show'
+                    type: 'show',
+                    rank_type: 'problem_id'
                 }))
                     .then((res) => {
                         console.log(res.data);
@@ -60,7 +61,8 @@
                 console.log(val);
                 this.$http.post('http://47.102.159.98/php/administrator/problem-list.php', qs.stringify({
                         page: val,
-                        type: 'show'
+                        type: 'show',
+                        rank_type: 'problem_id'
                     }))
                     .then((res) => {
                         console.log(res.data)
@@ -79,14 +81,27 @@
                     })
             },
             pass(problem) {
-                this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
-                    type: 'pass',
-                    problem_id: problem.problem_id
-                }))
+                this.$prompt('请输入平台币奖励', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(({ value }) => {
+                    this.$http.post('http://47.102.159.98/php/administrator/problem-list.php',qs.stringify({
+                        type: 'pass',
+                        problem_id: problem.problem_id,
+                        money: value
+                    }))
                     .then((res) => {
                         console.log(res.data);
                         this.getProblemList();
                     })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消输入'
+                    });       
+                });
+
+                
             },
             toProblemDetail(row) {
                 console.log(row.problem_id)
