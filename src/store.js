@@ -12,12 +12,18 @@ export default new Vuex.Store({
     user_id: window.sessionStorage.getItem('user_id'),
     nick: window.sessionStorage.getItem('nick'),
     photo: window.sessionStorage.getItem('photo'),
+    group: window.sessionStorage.getItem('group')
   },
   // 类似 vue 里的 mothods(同步方法)
   mutations: {
     upUser (state,user_id) {
       state.user_id = user_id;
       window.sessionStorage.setItem('user_id',user_id); 
+    },
+    upGroup (state,group) {
+      console.log(group)
+      state.group = group;
+      window.sessionStorage.setItem('group',group); 
     },
     upNick(state,nick) {
       state.nick = nick;

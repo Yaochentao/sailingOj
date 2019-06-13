@@ -4,7 +4,7 @@
             <h3 class="details-title">个人信息</h3>
             <el-button style="display: inline-block" type="primary" size="mini" @click="edit" v-show="notdit">编辑</el-button>
             <el-button style="display: inline-block" type="primary" size="mini" @click="updata" v-show="!notdit">提交</el-button>
-            <el-button style="display: inline-block" type="primary" size="mini">修改密码</el-button>
+            <el-button style="display: inline-block" type="primary" size="mini" @click="() => {this.$router.push('/change-pwd')}">修改密码</el-button>
         </div>
         <div class="info-con">
             <div class="input-con">

@@ -60,7 +60,7 @@
                     <div class="nav-item" @click="toSubmitHistory">做题记录</div>
                     <div class="nav-item" @click="toUpload">贡献题目</div>
                     <div class="nav-item" @click="toCollection">我的收藏</div>
-                    <div class="nav-item" @click="toAdmin" v-if="this.user_id == 'admin'">管理</div>
+                    <div class="nav-item" @click="toAdmin" v-if="this.group == 1">管理</div>
                     <div class="nav-item" @click="logout">注销</div>
                   </div>
                 </div>
@@ -226,6 +226,9 @@
     computed: {
       user_id() {
         return this.$store.state.user_id;
+      },
+      group() {
+        return this.$store.state.group
       },
       nick() {
         return this.$store.state.nick;

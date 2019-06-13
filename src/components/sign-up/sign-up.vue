@@ -129,9 +129,11 @@
                     }))
                     .then((res) => {
                         if(res.data.code == 1) {
+                            console.log(res.data.data.group)
                             this.$store.commit('upUser',res.data.data.user_id);
                             this.$store.commit('upNick',res.data.data.nick);
                             this.$store.commit('upPhoto',res.data.data.photo);
+                            this.$store.commit('upGroup',res.data.data.group)
                             this.$message('登录成功');
                             this.$router.push('/home')
                         }
